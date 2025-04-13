@@ -45,7 +45,7 @@ int main(void)
     return 0;
 }
 ```
-
+<details>
 <details>
 <summary><strong>📁 Manejo de Archivos</strong></summary>
 
