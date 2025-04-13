@@ -44,9 +44,7 @@ int main(void)
 }
  
 ```
- <details>
 
- <details>
  <summary><strong>💬 Entrada/Salida Básica</strong></summary>
  
  <br>
