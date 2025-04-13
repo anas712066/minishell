@@ -56,7 +56,33 @@ int main(void)
  | `write`       | Escribe directamente en un descriptor de archivo (stdout, stderr, etc.).    | Imprimir sin usar stdio              | `write(1, "Hola\n", 5);`              |
  | `perror`      | Muestra un mensaje de error basado en `errno`.                              | Reportar errores de sistema          | `perror("open");`                     |
  | `strerror`    | Devuelve un string que describe un código de error.                         | Mostrar mensaje de error personalizado | `char *msg = strerror(errno);`        |
+
+ ```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+int main(void)
+{
+    char *line;
+
+    while (1)
+    {
+        line = readline("minishell$ ");
+        if (!line)
+            break;
+        if (*line)
+            add_history(line);
+        printf("Leído: %s\n", line);
+        free(line);
+    }
+    rl_clear_history();
+    return 0;
+}
  
+```
+
  </details>
 
  
