@@ -32,26 +32,22 @@
 | `perror`      | Muestra un mensaje de error basado en `errno`.                              | Reportar errores de sistema          | `perror("open");`                     |
 | `strerror`    | Devuelve un string que describe un código de error.                         | Mostrar mensaje de error personalizado | `char *msg = strerror(errno);`        |
 
-</details>
+<details>
+<summary><strong>📁 Manejo de Archivos</strong></summary>
 
+<br>
 
-</details> <details> <summary><strong>📁 Sistema de Archivos</strong></summary>
+| Función     | Descripción                                                                 | Uso común                                     | Uso con código                                                   |
+|-------------|-----------------------------------------------------------------------------|-----------------------------------------------|------------------------------------------------------------------|
+| `access`    | Verifica permisos de acceso a un archivo (`F_OK`, `R_OK`, `W_OK`, `X_OK`).  | Comprobar si un archivo existe o es ejecutable | `if (access("file", F_OK) == 0) {...}`                          |
+| `open`      | Abre un archivo y devuelve su descriptor.                                   | Abrir archivos para lectura o escritura        | `int fd = open("file.txt", O_RDONLY);`                          |
+| `read`      | Lee datos de un descriptor de archivo.                                      | Leer contenido desde un archivo                | `read(fd, buffer, 100);`                                        |
+| `close`     | Cierra un descriptor de archivo.                                             | Liberar recursos tras abrir archivos           | `close(fd);`                                                    |
+| `unlink`    | Elimina un archivo del sistema de archivos.                                 | Implementar el comando `rm`                    | `unlink("file.txt");`                                           |
+| `stat`      | Obtiene información del archivo (nombre, tamaño, permisos).                 | Verificar tipo de archivo o permisos           | `stat("archivo", &st);`                                        |
+| `lstat`     | Igual que `stat` pero no sigue enlaces simbólicos.                          | Verificar si un archivo es un enlace simbólico | `lstat("archivo", &st);`                                       |
+| `fstat`     | Igual que `stat` pero usando un descriptor de archivo.                      | Obtener info de un archivo ya abierto          | `fstat(fd, &st);`                                               |
 
-  | Función   | Uso                                                  |
-|-----------|-------------------------------------------------------|
-| `open`    | Abrir archivos                                        |
-| `read`    | Leer archivos o entrada                               |
-| `close`   | Cerrar archivos                                       |
-| `access`  | Comprobar permisos de archivos                        |
-| `unlink`  | Eliminar un archivo                                   |
-| `stat`    | Obtener información de un archivo                     |
-| `lstat`   | Como `stat`, pero sin seguir enlaces simbólicos       |
-| `fstat`   | Como `stat`, pero desde descriptor de archivo         |
-| `opendir` | Abrir un directorio                                   |
-| `readdir` | Leer entradas de un directorio                        |
-| `closedir`| Cerrar un directorio                                  |
-| `getcwd`  | Obtener el directorio actual                          |
-| `chdir`   | Cambiar de directorio                                 |
 
 </details> <details> <summary><strong>👨‍👧‍👦 Gestión de Procesos</strong></summary>
 
@@ -114,9 +110,6 @@
 
 🧪 Ejemplo Entrada y Lectura de Comandos
 
-c
-Copiar
-Editar
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -139,11 +132,9 @@ int main(void)
     rl_clear_history();
     return 0;
 }
+
 🧪 Ejemplo práctico: Verificar si un archivo existe y leerlo
 
-c
-Copiar
-Editar
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
