@@ -47,14 +47,20 @@ int main(void)
 
 </details>
 
-</details> <details> <summary><strong>💬 Entrada/Salida Básica</strong></summary>
+<details>
+<summary><strong>💬 Entrada/Salida Básica</strong></summary>
 
-  | Función    | Uso                                      |
-|------------|-------------------------------------------|
-| `write`    | Escribir en un descriptor (stdout, stderr)|
-| `printf`   | Imprimir con formato                      |
-| `perror`   | Imprimir mensaje de error con `errno`     |
-| `strerror` | Convertir `errno` a string explicativa    |
+<br>
+
+| Función       | Descripción                                                                  | Uso común                            | Uso con código                        |
+|---------------|------------------------------------------------------------------------------|---------------------------------------|----------------------------------------|
+| `printf`      | Imprime texto formateado a la salida estándar.                              | Mensajes de debug o salida del shell | `printf("Hola %s\n", nombre);`        |
+| `write`       | Escribe directamente en un descriptor de archivo (stdout, stderr, etc.).    | Imprimir sin usar stdio              | `write(1, "Hola\n", 5);`              |
+| `perror`      | Muestra un mensaje de error basado en `errno`.                              | Reportar errores de sistema          | `perror("open");`                     |
+| `strerror`    | Devuelve un string que describe un código de error.                         | Mostrar mensaje de error personalizado | `char *msg = strerror(errno);`        |
+
+</details>
+
 
 </details> <details> <summary><strong>📁 Sistema de Archivos</strong></summary>
 
