@@ -2,7 +2,8 @@
 
 ## Funciones
 
-<details> <summary><strong>📥 Entrada y Lectura de Comandos</strong></summary>
+<details> 
+<summary><strong>📥 Entrada y Lectura de Comandos</strong></summary>
 
 <br>
 
