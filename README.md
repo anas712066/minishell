@@ -138,6 +138,8 @@ int main(void)
     return 0;
 }
 
+</details>
+
 ### 🧪 Ejemplo práctico: Verificar si un archivo existe y leerlo
 
 #include <fcntl.h>
