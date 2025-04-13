@@ -114,6 +114,7 @@
  
  🧪 Ejemplo Entrada y Lectura de Comandos
 
+c
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -140,7 +141,8 @@ int main(void)
  </details>
  
  🧪 Ejemplo práctico: Verificar si un archivo existe y leerlo
- 
+
+ c
  #include <fcntl.h>
  #include <unistd.h>
  #include <stdio.h>
