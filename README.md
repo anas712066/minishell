@@ -19,7 +19,16 @@
  | `ttyname(fd)`                   | Devuelve el nombre del terminal asociado con el descriptor.                                             | Obtener el nombre del terminal, útil para depuración              | `char *name = ttyname(0);`                                      |
  | `ttyslot()`                     | Devuelve el número de terminal del proceso actual.                                                      | Rara vez usada, identificación del terminal                       | `int slot = ttyslot();`                                         |
  | `ioctl(fd, request)`           | Envía comandos de control al dispositivo. Común para detectar tamaño del terminal (`TIOCGWINSZ`).       | Saber cuántas columnas tiene la terminal, útil para el layout     | `ioctl(1, TIOCGWINSZ, &w);`                                     |
- 
+ ```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Hola mundo\n");
+    return 0;
+}
+```
+
  <details>
  <summary><strong>💬 Entrada/Salida Básica</strong></summary>
  
