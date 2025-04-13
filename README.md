@@ -39,20 +39,8 @@ minishell/
 │   └── ...
 
 ```
-## 📚 Tabla de Contenidos
-
-- [📥 Entrada y Lectura de Comandos](#entrada-y-lectura-de-comandos)
-- [💬 Entrada/Salida Básica](#entrada-salida-básica)
-- [🌱 Gestión de Procesos](#gestión-de-procesos)
-- [🧠 Señales](#señales)
-- [📂 Directorios](#directorios)
-- [📌 Variables de Entorno](#variables-de-entorno)
-- [📍 Localización y Movimiento](#localización-y-movimiento)
-- [⚙️ Terminal (termcap)](#terminal-termcap)
-- [🔀 Duplicación y Pipes](#duplicación-y-pipes)
-- [🚀 Ejecución](#ejecución)
-
 ---
+## 📚 Tabla de Contenidos
 
 <details>
 <summary><strong>📥 Entrada y Lectura de Comandos</strong></summary>
