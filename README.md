@@ -19,15 +19,30 @@
  | `ttyname(fd)`                   | Devuelve el nombre del terminal asociado con el descriptor.                                             | Obtener el nombre del terminal, útil para depuración              | `char *name = ttyname(0);`                                      |
  | `ttyslot()`                     | Devuelve el número de terminal del proceso actual.                                                      | Rara vez usada, identificación del terminal                       | `int slot = ttyslot();`                                         |
  | `ioctl(fd, request)`           | Envía comandos de control al dispositivo. Común para detectar tamaño del terminal (`TIOCGWINSZ`).       | Saber cuántas columnas tiene la terminal, útil para el layout     | `ioctl(1, TIOCGWINSZ, &w);`                                     |
- Interes
- ```c
+```c
 #include <stdio.h>
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int main(void)
 {
-    printf("Hola mundo\n");
+    char *line;
+
+    while (1)
+    {
+        line = readline("minishell$ ");
+        if (!line)
+            break;
+        if (*line)
+            add_history(line);
+        printf("Leído: %s\n", line);
+        free(line);
+    }
+    rl_clear_history();
     return 0;
 }
+ 
 ```
 
  <details>
@@ -124,7 +139,7 @@ int main(void)
  
  🧪 Ejemplo Entrada y Lectura de Comandos
 
-c
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -148,7 +163,7 @@ int main(void)
     return 0;
 }
  
-</details> ```
+```
  
  🧪 Ejemplo práctico: Verificar si un archivo existe y leerlo
 
