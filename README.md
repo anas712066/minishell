@@ -38,6 +38,7 @@ minishell/
 ├── libft/                 # Si usas tu propia libft
 │   └── ...
 
+```
 ## 📚 Tabla de Contenidos
 
 - [📥 Entrada y Lectura de Comandos](#entrada-y-lectura-de-comandos)
