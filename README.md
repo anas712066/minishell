@@ -114,7 +114,9 @@
 
 🧪 Ejemplo Entrada y Lectura de Comandos
 
-```c
+c
+Copiar
+Editar
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -137,12 +139,11 @@ int main(void)
     rl_clear_history();
     return 0;
 }
-
-</details>
-
 🧪 Ejemplo práctico: Verificar si un archivo existe y leerlo
 
-```c
+c
+Copiar
+Editar
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
