@@ -56,7 +56,6 @@ int main(void)
  | `write`       | Escribe directamente en un descriptor de archivo (stdout, stderr, etc.).    | Imprimir sin usar stdio              | `write(1, "Hola\n", 5);`              |
  | `perror`      | Muestra un mensaje de error basado en `errno`.                              | Reportar errores de sistema          | `perror("open");`                     |
  | `strerror`    | Devuelve un string que describe un código de error.                         | Mostrar mensaje de error personalizado | `char *msg = strerror(errno);`        |
- 
 ```c
 #include <fcntl.h>
 #include <unistd.h>
@@ -86,8 +85,8 @@ int main(void)
     return 0;
 }
 ```
- 
- </details> <details> <summary><strong>📁 Sistema de Archivos</strong></summary>
+
+</details> <details> <summary><strong>📁 Sistema de Archivos</strong></summary>
  
    | Función   | Uso                                                  |
  |-----------|-------------------------------------------------------|
