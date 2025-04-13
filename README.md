@@ -48,7 +48,6 @@
 | `lstat`     | Igual que `stat` pero no sigue enlaces simbólicos.                          | Verificar si un archivo es un enlace simbólico | `lstat("archivo", &st);`                                       |
 | `fstat`     | Igual que `stat` pero usando un descriptor de archivo.                      | Obtener info de un archivo ya abierto          | `fstat(fd, &st);`                                               |
 
-
 </details> <details> <summary><strong>👨‍👧‍👦 Gestión de Procesos</strong></summary>
 
   | Función    | Uso                                                 |
