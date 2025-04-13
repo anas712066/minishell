@@ -58,31 +58,6 @@ int main(void)
  | `strerror`    | Devuelve un string que describe un código de error.                         | Mostrar mensaje de error personalizado | `char *msg = strerror(errno);`        |
  
  </details>
- ```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-int main(void)
-{
-    char *line;
-
-    while (1)
-    {
-        line = readline("minishell$ ");
-        if (!line)
-            break;
-        if (*line)
-            add_history(line);
-        printf("Leído: %s\n", line);
-        free(line);
-    }
-    rl_clear_history();
-    return 0;
-}
- 
-```
 
  
  </details> <details> <summary><strong>📁 Sistema de Archivos</strong></summary>
