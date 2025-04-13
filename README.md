@@ -45,7 +45,7 @@ int main(void)
  
 ```
 
- <details> <details><summary><strong>💬 Entrada/Salida Básica</strong></summary>
+<details><summary><strong>💬 Entrada/Salida Básica</strong></summary>
  
  <br>
  
@@ -88,7 +88,7 @@ int main(void)
 }
  
 ```
- <details> </details><summary><strong>📁 Sistema de Archivos</strong></summary>
+</details><summary><strong>📁 Sistema de Archivos</strong></summary>
  
    | Función   | Uso                                                  |
  |-----------|-------------------------------------------------------|
