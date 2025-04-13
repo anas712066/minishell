@@ -44,3 +44,4 @@ int main(void)
         write(2, "Archivo no encontrado\n", 23);
     return 0;
 }
+</details> ```
