@@ -1,8 +1,10 @@
 # Minishell
 
-# Funciones
+## Funciones
 
 <details> <summary><strong>📥 Entrada y Lectura de Comandos</strong></summary>
+
+<br>
 
 | Función                         | Descripción                                                                                             | Uso común                                                         | Uso con código                                                   |
 |----------------------------------|---------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|------------------------------------------------------------------|
@@ -17,7 +19,7 @@
 | `ttyslot()`                     | Devuelve el número de terminal del proceso actual.                                                      | Rara vez usada, identificación del terminal                       | `int slot = ttyslot();`                                         |
 | `ioctl(fd, request)`           | Envía comandos de control al dispositivo. Común para detectar tamaño del terminal (`TIOCGWINSZ`).       | Saber cuántas columnas tiene la terminal, útil para el layout     | `ioctl(1, TIOCGWINSZ, &w);`                                     |
 
-## 🧪 Ejemplo básico
+### 🧪 Ejemplo básico
 
 ```c
 #include <stdio.h>
