@@ -45,6 +45,8 @@ int main(void)
     return 0;
 }
 
+</details>
+
 </details> <details> <summary><strong>💬 Entrada/Salida Básica</strong></summary>
 
   | Función    | Uso                                      |
