@@ -88,7 +88,7 @@ int main(void)
 }
  
 ```
-
+ <details>
  </details><summary><strong>📁 Sistema de Archivos</strong></summary>
  
    | Función   | Uso                                                  |
