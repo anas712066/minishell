@@ -2,8 +2,10 @@
  
  ## Funciones
  
- <details><summary><strong>📥 Entrada y Lectura de Comandos</strong></summary>
+ <details>
+ <summary><strong>📥 Entrada y Lectura de Comandos</strong></summary>
  
+ <br>
  
  | Función                         | Descripción                                                                                             | Uso común                                                         | Uso con código                                                   |
  |----------------------------------|---------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|------------------------------------------------------------------|
@@ -17,37 +19,6 @@
  | `ttyname(fd)`                   | Devuelve el nombre del terminal asociado con el descriptor.                                             | Obtener el nombre del terminal, útil para depuración              | `char *name = ttyname(0);`                                      |
  | `ttyslot()`                     | Devuelve el número de terminal del proceso actual.                                                      | Rara vez usada, identificación del terminal                       | `int slot = ttyslot();`                                         |
  | `ioctl(fd, request)`           | Envía comandos de control al dispositivo. Común para detectar tamaño del terminal (`TIOCGWINSZ`).       | Saber cuántas columnas tiene la terminal, útil para el layout     | `ioctl(1, TIOCGWINSZ, &w);`                                     |
-
-
- <details><summary><strong>💬 Entrada/Salida Básica</strong></summary>
-
- 
- | Función       | Descripción                                                                  | Uso común                            | Uso con código                        |
- |---------------|------------------------------------------------------------------------------|---------------------------------------|----------------------------------------|
- | `printf`      | Imprime texto formateado a la salida estándar.                              | Mensajes de debug o salida del shell | `printf("Hola %s\n", nombre);`        |
- | `write`       | Escribe directamente en un descriptor de archivo (stdout, stderr, etc.).    | Imprimir sin usar stdio              | `write(1, "Hola\n", 5);`              |
- | `perror`      | Muestra un mensaje de error basado en `errno`.                              | Reportar errores de sistema          | `perror("open");`                     |
- | `strerror`    | Devuelve un string que describe un código de error.                         | Mostrar mensaje de error personalizado | `char *msg = strerror(errno);`        |
-
-
-</details> <details> <summary><strong>📁 Sistema de Archivos</strong></summary>
- 
-   | Función   | Uso                                                  |
- |-----------|-------------------------------------------------------|
- | `open`    | Abrir archivos                                        |
- | `read`    | Leer archivos o entrada                               |
- | `close`   | Cerrar archivos                                       |
- | `access`  | Comprobar permisos de archivos                        |
- | `unlink`  | Eliminar un archivo                                   |
- | `stat`    | Obtener información de un archivo                     |
- | `lstat`   | Como `stat`, pero sin seguir enlaces simbólicos       |
- | `fstat`   | Como `stat`, pero desde descriptor de archivo         |
- | `opendir` | Abrir un directorio                                   |
- | `readdir` | Leer entradas de un directorio                        |
- | `closedir`| Cerrar un directorio                                  |
- | `getcwd`  | Obtener el directorio actual                          |
- | `chdir`   | Cambiar de directorio                                 |
-
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -73,6 +44,39 @@ int main(void)
 }
  
 ```
+
+ <details>
+ <summary><strong>💬 Entrada/Salida Básica</strong></summary>
+ 
+ <br>
+ 
+ | Función       | Descripción                                                                  | Uso común                            | Uso con código                        |
+ |---------------|------------------------------------------------------------------------------|---------------------------------------|----------------------------------------|
+ | `printf`      | Imprime texto formateado a la salida estándar.                              | Mensajes de debug o salida del shell | `printf("Hola %s\n", nombre);`        |
+ | `write`       | Escribe directamente en un descriptor de archivo (stdout, stderr, etc.).    | Imprimir sin usar stdio              | `write(1, "Hola\n", 5);`              |
+ | `perror`      | Muestra un mensaje de error basado en `errno`.                              | Reportar errores de sistema          | `perror("open");`                     |
+ | `strerror`    | Devuelve un string que describe un código de error.                         | Mostrar mensaje de error personalizado | `char *msg = strerror(errno);`        |
+ 
+ </details>
+ 
+ 
+ </details> <details> <summary><strong>📁 Sistema de Archivos</strong></summary>
+ 
+   | Función   | Uso                                                  |
+ |-----------|-------------------------------------------------------|
+ | `open`    | Abrir archivos                                        |
+ | `read`    | Leer archivos o entrada                               |
+ | `close`   | Cerrar archivos                                       |
+ | `access`  | Comprobar permisos de archivos                        |
+ | `unlink`  | Eliminar un archivo                                   |
+ | `stat`    | Obtener información de un archivo                     |
+ | `lstat`   | Como `stat`, pero sin seguir enlaces simbólicos       |
+ | `fstat`   | Como `stat`, pero desde descriptor de archivo         |
+ | `opendir` | Abrir un directorio                                   |
+ | `readdir` | Leer entradas de un directorio                        |
+ | `closedir`| Cerrar un directorio                                  |
+ | `getcwd`  | Obtener el directorio actual                          |
+ | `chdir`   | Cambiar de directorio                                 |
  
  </details> <details> <summary><strong>👨‍👧‍👦 Gestión de Procesos</strong></summary>
  
