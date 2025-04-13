@@ -3,18 +3,44 @@
 ## Funciones
 <details> <summary><strong>📥 Entrada y Lectura de Comandos</strong></summary>
 
-  | Función             | Uso                                                                 |
-|---------------------|----------------------------------------------------------------------|
-| `readline`          | Leer línea con prompt, permite historial y edición                   |
-| `add_history`       | Añadir línea al historial de readline                                |
-| `rl_clear_history`  | Limpiar historial de readline                                        |
-| `rl_on_new_line`    | Notifica a readline que comienza una nueva línea                     |
-| `rl_replace_line`   | Reemplaza el contenido actual de la línea                            |
-| `rl_redisplay`      | Redibuja la línea actual (útil con señales)                          |
-| `isatty`            | Comprueba si un descriptor es un terminal                           |
-| `ttyname`           | Devuelve el nombre del terminal asociado a un descriptor             |
-| `ttyslot`           | Obtiene el número de terminal asociado                               |
-| `ioctl`             | Control de dispositivos, útil para gestionar terminales              |
+| Función                         | Descripción                                                                                             | Uso común                                                         | Uso con código                                                   |
+|----------------------------------|---------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|------------------------------------------------------------------|
+| `readline(prompt)`              | Muestra el prompt y lee una línea de entrada del usuario. Devuelve un puntero a la línea leída.         | Leer comandos del usuario con edición de línea                    | `char *s = readline("mini$ ");`                                 |
+| `add_history(line)`             | Añade la línea al historial de comandos. Útil para usar las flechas ↑ y ↓.                              | Guardar comandos ejecutados para navegación en el historial       | `if (*s) add_history(s);`                                       |
+| `rl_clear_history()`            | Limpia el historial de readline liberando memoria.                                                      | Limpiar historial al salir del programa                           | `rl_clear_history();`                                           |
+| `rl_on_new_line()`              | Notifica a readline que comienza una nueva línea. Útil al manejar señales.                              | Preparar readline tras una interrupción con Ctrl+C                | `rl_on_new_line();`                                             |
+| `rl_replace_line(text, undo)`  | Reemplaza la línea actual por `text`. `undo` borra el historial de deshacer si es 1.                    | Borrar o reemplazar el texto actual en la línea de entrada        | `rl_replace_line("", 0);`                                       |
+| `rl_redisplay()`                | Redibuja el prompt y la línea actual.                                                                   | Refrescar el prompt en pantalla tras una señal                    | `rl_redisplay();`                                               |
+| `isatty(fd)`                    | Devuelve 1 si el descriptor es un terminal, 0 si no.                                                    | Comprobar si la entrada es interactiva                            | `if (isatty(STDIN_FILENO))`                                     |
+| `ttyname(fd)`                   | Devuelve el nombre del terminal asociado con el descriptor.                                             | Obtener el nombre del terminal, útil para depuración              | `char *name = ttyname(0);`                                      |
+| `ttyslot()`                     | Devuelve el número de terminal del proceso actual.                                                      | Rara vez usada, identificación del terminal                       | `int slot = ttyslot();`                                         |
+| `ioctl(fd, request)`           | Envía comandos de control al dispositivo. Común para detectar tamaño del terminal (`TIOCGWINSZ`).       | Saber cuántas columnas tiene la terminal, útil para el layout     | `ioctl(1, TIOCGWINSZ, &w);`                                     |
+
+### 🧪 Ejemplo básico
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+int main(void)
+{
+    char *line;
+
+    while (1)
+    {
+        line = readline("minishell$ ");
+        if (!line)
+            break;
+        if (*line)
+            add_history(line);
+        printf("Leído: %s\n", line);
+        free(line);
+    }
+    rl_clear_history();
+    return 0;
+}
 
 </details> <details> <summary><strong>💬 Entrada/Salida Básica</strong></summary>
 
