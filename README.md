@@ -1,6 +1,6 @@
-## Minishell
+# Minishell
 
-# Funciones
+## Funciones
 <details> <summary><strong>📥 Entrada y Lectura de Comandos</strong></summary>
 
   | Función             | Uso                                                                 |
