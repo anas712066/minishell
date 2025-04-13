@@ -5,7 +5,6 @@
  <details>
  <summary><strong>📥 Entrada y Lectura de Comandos</strong></summary>
  
- <br>
  
  | Función                         | Descripción                                                                                             | Uso común                                                         | Uso con código                                                   |
  |----------------------------------|---------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|------------------------------------------------------------------|
@@ -47,8 +46,7 @@ int main(void)
 
  <details>
  <summary><strong>💬 Entrada/Salida Básica</strong></summary>
- 
- <br>
+
  
  | Función       | Descripción                                                                  | Uso común                            | Uso con código                        |
  |---------------|------------------------------------------------------------------------------|---------------------------------------|----------------------------------------|
@@ -56,6 +54,7 @@ int main(void)
  | `write`       | Escribe directamente en un descriptor de archivo (stdout, stderr, etc.).    | Imprimir sin usar stdio              | `write(1, "Hola\n", 5);`              |
  | `perror`      | Muestra un mensaje de error basado en `errno`.                              | Reportar errores de sistema          | `perror("open");`                     |
  | `strerror`    | Devuelve un string que describe un código de error.                         | Mostrar mensaje de error personalizado | `char *msg = strerror(errno);`        |
+
 ```c
 #include <stdio.h>
 #include <stdlib.h>
