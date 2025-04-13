@@ -114,7 +114,7 @@
  
  🧪 Ejemplo Entrada y Lectura de Comandos
 
-```c
+c
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
