@@ -64,8 +64,11 @@ fclean: clean
 # Volver a compilar desde cero
 re: fclean all
 
-# Regla para recompilar y hacer relink cuando se toque cualquier archivo .c o .h
+# Regla para compilar .o desde .c
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
+
+# Incluir los archivos de dependencias generados automáticamente
+-include $(OBJS:.o=.d)
 
 .PHONY: all clean fclean re
