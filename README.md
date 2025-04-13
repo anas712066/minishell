@@ -142,6 +142,7 @@ int main(void)
 
 ### 🧪 Ejemplo práctico: Verificar si un archivo existe y leerlo
 
+```c
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
