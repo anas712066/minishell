@@ -57,33 +57,29 @@ int main(void)
  | `perror`      | Muestra un mensaje de error basado en `errno`.                              | Reportar errores de sistema          | `perror("open");`                     |
  | `strerror`    | Devuelve un string que describe un código de error.                         | Mostrar mensaje de error personalizado | `char *msg = strerror(errno);`        |
 ```c
-#include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int main(void)
 {
-    char buffer[101];
-    int fd, bytes;
+    char *line;
 
-    if (access("readme.txt", F_OK) == 0)
+    while (1)
     {
-        fd = open("readme.txt", O_RDONLY);
-        if (fd == -1)
-            return (perror("open"), 1);
-        bytes = read(fd, buffer, 100);
-        if (bytes > 0)
-        {
-            buffer[bytes] = '\0';
-            write(1, buffer, bytes);
-        }
-        close(fd);
+        line = readline("minishell$ ");
+        if (!line)
+            break;
+        if (*line)
+            add_history(line);
+        printf("Leído: %s\n", line);
+        free(line);
     }
-    else
-        write(2, "Archivo no encontrado\n", 23);
+    rl_clear_history();
     return 0;
 }
+ 
 ```
 
 </details> <details> <summary><strong>📁 Sistema de Archivos</strong></summary>
