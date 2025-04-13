@@ -112,7 +112,7 @@
 
 </details>
 
-### 🧪 Ejemplo Entrada y Lectura de Comandos
+🧪 Ejemplo Entrada y Lectura de Comandos
 
 ```c
 #include <stdio.h>
@@ -140,7 +140,7 @@ int main(void)
 
 </details>
 
-### 🧪 Ejemplo práctico: Verificar si un archivo existe y leerlo
+🧪 Ejemplo práctico: Verificar si un archivo existe y leerlo
 
 ```c
 #include <fcntl.h>
