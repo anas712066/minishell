@@ -103,6 +103,32 @@ int main(void)
  | `closedir`| Cerrar un directorio                                  |
  | `getcwd`  | Obtener el directorio actual                          |
  | `chdir`   | Cambiar de directorio                                 |
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+int main(void)
+{
+    char *line;
+
+    while (1)
+    {
+        line = readline("minishell$ ");
+        if (!line)
+            break;
+        if (*line)
+            add_history(line);
+        printf("Leído: %s\n", line);
+        free(line);
+    }
+    rl_clear_history();
+    return 0;
+}
+ 
+```
  
  </details> <details> <summary><strong>👨‍👧‍👦 Gestión de Procesos</strong></summary>
  
