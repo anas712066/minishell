@@ -9,6 +9,7 @@ minishell
 
 # Libft compiled binary
 libft/libft.a
+libft/objs/*.o
 
 # Build directories (si los usas)
 obj/
