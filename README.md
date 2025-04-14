@@ -1,6 +1,6 @@
 # minishell
 [Funciones ](https://42-cursus.gitbook.io/guide/rank-03/minishell/functions)
-[Videos Minishell\n](https://www.youtube.com/watch?v=MyldPMn95kk&list=PLCXqoZAc8-tyvZ4wibJZYHuQh5jscS3yY&index=1)
+[Videos Minishell](https://www.youtube.com/watch?v=MyldPMn95kk&list=PLCXqoZAc8-tyvZ4wibJZYHuQh5jscS3yY&index=1)
 [Threads](https://www.youtube.com/playlist?list=PLc4DnsRQbs6b8vR0Y5p_bWNy7icCSWsHu)
 [lets-discuss-threads-grab-a-coffee](https://medium.com/@jalal92/lets-discuss-threads-grab-a-coffee-ad4d4ebf7181)
 
