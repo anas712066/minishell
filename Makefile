@@ -1,74 +1,92 @@
 # **************************************************************************** #
-#                               MINIHELL MAKEFILE                              #
+#                               MINISHELL MAKEFILE                             #
 # **************************************************************************** #
 
-NAME        := minishell
+# Variables
+NAME := minishell
+CC := gcc
+CFLAGS := -Wall -Wextra -Werror -g
+INCLUDES := -Iinclude -Ilibft
+DEPFLAGS := -MMD -MP
 
-CC          := gcc
-CFLAGS      := -Wall -Wextra -Werror -g
-INCLUDES    := -Iinclude -Ilibft
+# Directorios
+OBJDIR := obj
+LIBFT_DIR := libft
+LIBFT := $(LIBFT_DIR)/libft.a
 
-# Directorios de los archivos fuente
-SRC_DIRS    := src parser builtins exec
-LIBFT_DIR   := libft
-LIBFT       := $(LIBFT_DIR)/libft.a
+# Colores para mensajes
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+BLUE = \033[0;34m
+PURPLE = \033[0;35m
+CYAN = \033[0;36m
+RESET = \033[0m
 
-# Archivos fuente y objetos manuales
-SRCS        := src/main.c \
-               src/prompt.c \
-               src/signal.c \
-               src/utils/ft_xxx.c \
-               parser/tokenizer.c \
-               parser/quotes.c \
-               parser/expand.c \
-               parser/parser_utils.c \
-               builtins/echo.c \
-               builtins/cd.c \
-               builtins/pwd.c \
-               builtins/env.c \
-               builtins/export.c \
-               builtins/unset.c \
-               builtins/exit.c \
-               exec/exec.c \
-               exec/redir.c \
-               exec/pipe.c \
-               exec/builtin_check.c
+# Archivos fuente
+SRCS := src/main.c \
+        src/prompt.c \
+        src/signal.c \
+        src/utils/utils.c \
+        parser/tokenizer.c \
+        parser/quotes.c \
+        parser/expand.c \
+        parser/parser_utils.c \
+        builtins/echo.c \
+        builtins/cd.c \
+        builtins/pwd.c \
+        builtins/env.c \
+        builtins/export.c \
+        builtins/unset.c \
+        builtins/exit.c \
+        exec/exec.c \
+        exec/redir.c \
+        exec/pipe.c \
+        exec/builtin_check.c
 
-OBJS        := $(SRCS:.c=.o)
+# Objetos y dependencias
+OBJS := $(SRCS:%.c=$(OBJDIR)/%.o)
+DEPS := $(OBJS:.o=.d)
 
 # ********************************************** #
 #                  RULES                        #
 # ********************************************** #
 
 # Regla por defecto
-all: $(LIBFT) $(NAME)
+all: $(NAME)
 
 # Incluir la librería libft
 $(LIBFT):
+	@echo "$(BLUE)Compilando libft...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# Regla para compilar el ejecutable
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+# Ejecutable
+$(NAME): $(OBJS) $(LIBFT) Makefile
+	@echo "$(YELLOW)Enlazando $@...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@echo "$(GREEN)¡Minishell compilado correctamente!$(RESET)"
+
+# Regla para compilar .o desde .c
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@echo "$(CYAN)Compilando $<...$(RESET)"
+	@$(CC) $(CFLAGS) $(INCLUDES) $(DEPFLAGS) -c $< -o $@
 
 # Limpiar archivos objeto
 clean:
-	@rm -f $(OBJS)
+	@echo "$(PURPLE)Limpiando objetos...$(RESET)"
+	@rm -rf $(OBJDIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
 # Limpiar todo, incluyendo el ejecutable
 fclean: clean
+	@echo "$(PURPLE)Limpiando ejecutable...$(RESET)"
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 # Volver a compilar desde cero
 re: fclean all
 
-# Regla para compilar .o desde .c
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
-
-# Incluir los archivos de dependencias generados automáticamente
--include $(OBJS:.o=.d)
+# Include de dependencias
+-include $(DEPS)
 
 .PHONY: all clean fclean re
