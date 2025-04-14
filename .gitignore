@@ -1,0 +1,29 @@
+# Compiled object files
+*.o
+
+# Dependency files
+*.d
+
+# Binary
+minishell
+
+# Libft compiled binary
+libft/libft.a
+
+# Build directories (si los usas)
+obj/
+
+# Editor files
+*~
+*.swp
+*.swo
+.vscode/
+.idea/
+.DS_Store
+
+# Valgrind output (si lo usas)
+valgrind-out.txt
+
+# Debug logs
+gdb.txt
+
