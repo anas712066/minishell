@@ -62,7 +62,7 @@ $(LIBFT):
 # Ejecutable
 $(NAME): $(OBJS) $(LIBFT) Makefile
 	@echo "$(YELLOW)Enlazando $@...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 	@echo "$(GREEN)¡Minishell compilado correctamente!$(RESET)"
 
 # Regla para compilar .o desde .c
