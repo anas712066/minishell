@@ -1,14 +1,25 @@
 #include <stdio.h>
-#include "minishell.h"  // Asegúrate de tener este archivo de cabecera, aunque esté vacío por ahora.
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int main(void)
 {
-    printf("¡Bienvenido a minishell!\n");
+	char *input;
 
-    // Aquí puedes agregar más pruebas, como la ejecución de comandos simulados.
-    printf("Este es el comando principal de prueba.\n");
-
-    // Puedes agregar más funcionalidades que planeas implementar en minishell.
-    
-    return 0;
+	while (1)
+	{
+		input = readline("minishell$ ");
+		if (!input)
+		{
+			printf("exit\n");
+			break;
+		}
+		if (*input)
+			add_history(input);
+		// Aquí procesarías la línea, por ahora solo la imprimimos
+		printf("Recibido: %s\n", input);
+		free(input);
+	}
+	return (0);
 }
