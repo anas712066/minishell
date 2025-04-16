@@ -44,25 +44,16 @@ int	main(void)
 		line = readline("minishell> ");
 		if (!line)
 			break ;
-
-		// Verificar si las comillas están emparejadas antes de continuar
 		if (!check_quotes(line))
 		{
-			handle_quote_error(1);
 			continue ;
 		}
-
-		// Si las comillas están bien, agregar al historial
 		add_history(line);
-
-		// Tokenizar la línea
 		tokens = tokenize(line);
 		tmp = tokens;
-
-		// Verificar y manejar tokens vacíos
 		while (tmp)
 		{
-			if (tmp->value && tmp->value[0] == '\0')  // Token vacío
+			if (tmp->value && tmp->value[0] == '\0')
 			{
 				handle_empty_token_error(tmp->value);
 			}
@@ -73,7 +64,6 @@ int	main(void)
 			}
 			tmp = tmp->next;
 		}
-
 		free_tokens(tokens);
 		free(line);
 	}

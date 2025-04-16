@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:28:57 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 19:28:48 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/04/16 21:22:07 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int				is_special_char(char c);
 
 /*Funcion de srcs/utils/utils.c*/
 char			*ft_strndup(const char *s, size_t n);
+char			*get_history_path(void);
 
 /* Prototipos de funciones para tokenizer.c */
 t_token_type	get_type(const char *str, int *len);
