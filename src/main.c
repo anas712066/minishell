@@ -44,11 +44,17 @@ int	main(void)
 		line = readline("minishell> ");
 		if (!line)
 			break ;
+		if (!check_quotes(line))
+		{
+			handle_quote_error(1);
+			continue ;
+		}
 		add_history(line);
 		tokens = tokenize(line);
 		tmp = tokens;
 		while (tmp)
 		{
+			handle_empty_token_error(tmp->value);
 			printf("Token: %-10s Type: %s\n", tmp->value,
 				token_type_to_str(tmp->type));
 			tmp = tmp->next;

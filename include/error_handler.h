@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   error_handler.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 19:10:27 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 19:10:34 by mmilitar         ###   ########.fr       */
+/*   Created: 2025/04/16 19:11:40 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/04/16 19:12:07 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef ERROR_HANDLER_H
+# define ERROR_HANDLER_H
 
-# include "tokenizer.h"
-# include "error_handler.h"
-# include "libft.h"
+void	handle_quote_error(int quote_status);
+void	handle_empty_token_error(const char *token);
 
 #endif
