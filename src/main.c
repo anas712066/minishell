@@ -39,6 +39,7 @@ int	main(void)
 	t_token	*tokens;
 	t_token	*tmp;
 
+	setup_signal_handlers();
 	while (1)
 	{
 		line = readline("minishell> ");
