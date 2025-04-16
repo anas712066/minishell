@@ -37,6 +37,7 @@ const char	*token_type_to_str(t_token_type type)
 int	main(void)
 {
 	char	*line;
+	char	*expanded_line;
 	t_token	*tokens;
 	t_token	*tmp;
 
@@ -51,6 +52,10 @@ int	main(void)
 			continue ;
 		}
 		add_history(line);
+		expanded_line = expand_line(line);
+		free(line); // Libera la línea original
+		line = expanded_line;
+
 		tokens = tokenize(line);
 		tmp = tokens;
 		while (tmp)

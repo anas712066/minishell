@@ -14,7 +14,7 @@
 # define TOKENIZER_H
 
 # include <stdlib.h>
-# include "libft.h"
+# include "../libft/libft.h"
 
 /* Definición de tipos de token */
 typedef enum e_token_type

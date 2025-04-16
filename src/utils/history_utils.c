@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+# include "../libft/libft.h"
 
 char	*get_history_path(void)
 {

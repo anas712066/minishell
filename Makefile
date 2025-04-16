@@ -5,7 +5,7 @@
 # Variables
 NAME := minishell
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -g
+CFLAGS := -Wall -Wextra -Werror -g #-fsanitize=address -fsanitize=undefined
 INCLUDES := -Iinclude -Ilibft
 DEPFLAGS := -MMD -MP
 
