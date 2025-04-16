@@ -1,14 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 22:23:25 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/04/16 22:25:17 by mmilitar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <stdlib.h> // Para malloc, free, getenv
-# include <string.h> // Para funciones como strdup
-# include "libft.h"  // Para funciones personalizadas como ft_strdup, ft_strjoin
+# include <stdlib.h>
+# include <string.h>
+# include "libft.h"
 
-/* Variable global para $? */
-extern int g_exit_status;
+extern int	g_exit_status;
 
-/* Prototipos de funciones para expansión */
 char	*expand_line(const char *line);
 char	*expand_variable(const char *line, int *i);
 

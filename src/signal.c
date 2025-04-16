@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:44:54 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 22:06:41 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/04/16 22:24:22 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include "../include/minishell.h"
-
 
 void	handle_sigint(int sig)
 {

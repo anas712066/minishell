@@ -3,21 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:46:23 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/04/16 22:12:19 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/04/16 22:26:21 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/tokenizer.h"
 #include "libft.h"
 #include "../include/minishell.h"
-#include "../include/parser.h"
-#include "../include/error_handler.h"
 
-
-int g_exit_status = 0;
+int	g_exit_status = 0;
 
 char	*expand_variable(const char *line, int *i)
 {
