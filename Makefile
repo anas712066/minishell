@@ -43,7 +43,9 @@ SRCS := src/main.c \
         exec/exec.c \
         exec/redir.c \
         exec/pipe.c \
-        exec/builtin_check.c
+        exec/builtin_check.c \
+        errors/error_handler.c \
+        errors/error_quotes.c
 
 # Objetos y dependencias
 OBJS := $(SRCS:%.c=$(OBJDIR)/%.o)

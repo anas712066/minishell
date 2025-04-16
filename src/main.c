@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "tokenizer.h"
+#include "../include/minishell.h"
 
 const char	*token_type_to_str(t_token_type type)
 {
@@ -44,21 +44,36 @@ int	main(void)
 		line = readline("minishell> ");
 		if (!line)
 			break ;
+
+		// Verificar si las comillas están emparejadas antes de continuar
 		if (!check_quotes(line))
 		{
 			handle_quote_error(1);
 			continue ;
 		}
+
+		// Si las comillas están bien, agregar al historial
 		add_history(line);
+
+		// Tokenizar la línea
 		tokens = tokenize(line);
 		tmp = tokens;
+
+		// Verificar y manejar tokens vacíos
 		while (tmp)
 		{
-			handle_empty_token_error(tmp->value);
-			printf("Token: %-10s Type: %s\n", tmp->value,
-				token_type_to_str(tmp->type));
+			if (tmp->value && tmp->value[0] == '\0')  // Token vacío
+			{
+				handle_empty_token_error(tmp->value);
+			}
+			else
+			{
+				printf("Token: %-10s Type: %s\n", tmp->value,
+					token_type_to_str(tmp->type));
+			}
 			tmp = tmp->next;
 		}
+
 		free_tokens(tokens);
 		free(line);
 	}
