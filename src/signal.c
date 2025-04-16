@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 21:44:54 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/04/16 22:06:41 by mmilitar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <signal.h>
 #include <unistd.h>
 #include <readline/readline.h>
@@ -20,6 +32,14 @@ void	handle_sigquit(int sig)
 
 void	setup_signal_handlers(void)
 {
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
+	if (isatty(STDIN_FILENO))
+	{
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, handle_sigquit);
+		signal(SIGTSTP, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGTSTP, SIG_DFL);
+	}
 }

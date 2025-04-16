@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   signal1.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 19:10:27 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 21:53:22 by mmilitar         ###   ########.fr       */
+/*   Created: 2025/04/16 21:36:40 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/04/16 21:52:01 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef SIGNAL1_H
+# define SIGNAL1_H
 
-
-# include "tokenizer.h"
-# include "error_handler.h"
-# include "libft.h"
-# include "signal1.h"
+void	handle_sigint(int sig);
+void	handle_sigquit(int sig);
+void	setup_signal_handlers(void);
 
 #endif

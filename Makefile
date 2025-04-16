@@ -27,6 +27,7 @@ SRCS := src/main.c \
         src/prompt.c \
         src/signal.c \
         src/utils/utils.c \
+        src/utils/history_utils.c \
         parser/tokenizer.c \
         parser/tokenizer_utils.c \
         parser/tokenizer_functions.c \
@@ -45,8 +46,7 @@ SRCS := src/main.c \
         exec/pipe.c \
         exec/builtin_check.c \
         errors/error_handler.c \
-        errors/error_quotes.c \
-        src/utils/history_utils.c
+        errors/error_quotes.c
 
 # Objetos y dependencias
 OBJS := $(SRCS:%.c=$(OBJDIR)/%.o)

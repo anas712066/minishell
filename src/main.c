@@ -15,6 +15,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../include/minishell.h"
+#include <signal.h>
 
 const char	*token_type_to_str(t_token_type type)
 {
