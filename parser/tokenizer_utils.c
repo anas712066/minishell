@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:24:03 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 17:47:15 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:28:08 by mumajeed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	is_special_char(char c)
 
 t_token_type	get_type(const char *str, int *len)
 {
-	if (!strncmp(str, "<<", 2))
+	if (!ft_strncmp(str, "<<", 2))
 		return (*len = 2, T_HEREDOC);
-	if (!strncmp(str, ">>", 2))
+	if (!ft_strncmp(str, ">>", 2))
 		return (*len = 2, T_APPEND);
 	if (str[0] == '<')
 		return (*len = 1, T_REDIR_IN);
