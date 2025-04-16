@@ -1,58 +1,61 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmilitar <mmilitar@student.42barcelon      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 16:06:33 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/04/16 16:06:35 by mmilitar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <unistd.h>
-#include <string.h>
+#include "tokenizer.h"
 
-// Función para obtener el path de historial en $HOME
-char	*get_history_path(void)
+const char	*token_type_to_str(t_token_type type)
 {
-	const char	*home = getenv("HOME");
-    if (!home)
-        return NULL;
-    
-    const char *filename = "/.minishell_history";
-    char *full_path = malloc(strlen(home) + strlen(filename) + 1);
-    if (!full_path)
-        return NULL;
-    
-    strcpy(full_path, home);
-    strcat(full_path, filename);
-    return full_path;
+	if (type == T_WORD)
+		return ("WORD");
+	if (type == T_PIPE)
+		return ("PIPE");
+	if (type == T_REDIR_IN)
+		return ("REDIR_IN");
+	if (type == T_REDIR_OUT)
+		return ("REDIR_OUT");
+	if (type == T_APPEND)
+		return ("APPEND");
+	if (type == T_HEREDOC)
+		return ("HEREDOC");
+	return ("UNKNOWN");
 }
 
 int	main(void)
 {
-	char	*input;
-	char	*hist_path = get_history_path();
-
-    // Cargar hist
-	{
-		read_history(hist_path);
-	}
-        
+	char	*line;
+	t_token	*tokens;
+	t_token	*tmp;
 
 	while (1)
 	{
-		input = readline("minishell$ ");
-		if (!input)
+		line = readline("minishell> ");
+		if (!line)
+			break ;
+		add_history(line);
+		tokens = tokenize(line);
+		tmp = tokens;
+		while (tmp)
 		{
-			printf("exit\n");
-			break;
+			printf("Token: %-10s Type: %s\n", tmp->value,
+				token_type_to_str(tmp->type));
+			tmp = tmp->next;
 		}
-		if (*input)
-			add_history(input);
-		// Aquí procesarías la línea, por ahora solo la imprimimos
-		printf("Recibido: %s\n", input);
-		free(input);
+		free_tokens(tokens);
+		free(line);
 	}
-	// Guardar historial antes de salir
-	if (hist_path)
-    {
-        write_history(hist_path);
-        free(hist_path);
-    }
-
+	printf("exit\n");
 	return (0);
 }

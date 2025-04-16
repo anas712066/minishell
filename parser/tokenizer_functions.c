@@ -6,11 +6,11 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:41:48 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 14:46:58 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/04/16 18:07:17 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../include/tokenizer.h"
 #include <stdlib.h>
 
 t_token	*new_token(char *value, t_token_type type)
@@ -20,7 +20,7 @@ t_token	*new_token(char *value, t_token_type type)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	token->value = value;
+	token->value = ft_strdup(value);
 	token->type = type;
 	token->next = NULL;
 	return (token);
