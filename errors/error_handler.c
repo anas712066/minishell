@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   error_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 16:12:56 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 17:45:51 by mmilitar         ###   ########.fr       */
+/*   Created: 2025/04/16 19:13:11 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/04/16 19:14:20 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/tokenizer.h"
+#include "error_handler.h"
+#include <stdio.h>
 
-char	*ft_strndup(const char *s, size_t n)
+void	handle_quote_error(int quote_status)
 {
-	size_t	i;
-	char	*dup;
-
-	dup = malloc(n + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (i < n && s[i])
+	if (quote_status == 1)
 	{
-		dup[i] = s[i];
-		i++;
+		printf("Error: Comillas no cerradas.\n");
 	}
-	dup[i] = '\0';
-	return (dup);
+}
+
+void	handle_empty_token_error(const char *token)
+{
+	if (token == NULL || token[0] == '\0')
+	{
+		printf("Error: Token vacío detectado.\n");
+	}
 }

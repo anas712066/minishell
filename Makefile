@@ -28,6 +28,8 @@ SRCS := src/main.c \
         src/signal.c \
         src/utils/utils.c \
         parser/tokenizer.c \
+        parser/tokenizer_utils.c \
+        parser/tokenizer_functions.c \
         parser/quotes.c \
         parser/expand.c \
         parser/parser_utils.c \

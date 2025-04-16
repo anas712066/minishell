@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   error_handler.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 16:12:56 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 17:45:51 by mmilitar         ###   ########.fr       */
+/*   Created: 2025/04/16 19:11:40 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/04/16 19:12:07 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/tokenizer.h"
+#ifndef ERROR_HANDLER_H
+# define ERROR_HANDLER_H
 
-char	*ft_strndup(const char *s, size_t n)
-{
-	size_t	i;
-	char	*dup;
+void	handle_quote_error(int quote_status);
+void	handle_empty_token_error(const char *token);
 
-	dup = malloc(n + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (i < n && s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
+#endif
