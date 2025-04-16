@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:13:11 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 21:24:07 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/04/17 00:05:24 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,4 @@ void	handle_quote_error(int quote_type)
 		printf("Error: Comillas dobles no cerradas.\n");
 	else if (quote_type == 3)
 		printf("Error: Comillas no emparejadas correctamente.\n");
-}
-
-void	handle_empty_token_error(const char *token)
-{
-	if (token == NULL || token[0] == '\0')
-	{
-		printf("Error: Token vacío detectado.\n");
-	}
 }

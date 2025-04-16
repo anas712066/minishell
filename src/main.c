@@ -48,10 +48,26 @@ int	main(void)
 			break ;
 		if (!check_quotes(line))
 		{
+			free(line);
 			continue ;
 		}
 		add_history(line);
 		tokens = tokenize(line);
+		if (!tokens)
+		{
+			free(line);
+			continue ;
+		}
+		validate_syntax(tokens);
+		if (tokens) {
+            handle_logical_operator(tokens); // Aquí es donde se maneja `||`
+        }
+		if (!validate_syntax(tokens))
+        {
+            free_tokens(tokens);
+            free(line);
+            continue; // Continuamos con la siguiente línea
+        }
 		tmp = tokens;
 		while (tmp)
 		{
