@@ -16,17 +16,19 @@
 void	handle_quote_error(int quote_type)
 {
 	if (quote_type == 1)
-		printf("Error: Comillas simples no cerradas.\n");
+		fprintf(stderr, "Error: Comillas simples no cerradas.\n");
 	else if (quote_type == 2)
-		printf("Error: Comillas dobles no cerradas.\n");
+		fprintf(stderr, "Error: Comillas dobles no cerradas.\n");
 	else if (quote_type == 3)
-		printf("Error: Comillas no emparejadas correctamente.\n");
+		fprintf(stderr, "Error: Comillas no emparejadas correctamente.\n");
 }
 
 void	handle_empty_token_error(const char *token)
 {
 	if (token == NULL || token[0] == '\0')
 	{
-		printf("Error: Token vacío detectado.\n");
+		fprintf(stderr, "Error: Token vacío detectado.\n");
+		return (1);
 	}
+	return (0);
 }

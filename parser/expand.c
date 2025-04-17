@@ -44,6 +44,8 @@ char	*expand_line(const char *line)
 	int		start;
 
 	result = ft_strdup("");
+	if (!result) // Verifica si ft_strdup falló
+		return (NULL);
 	i = 0;
 	while (line[i])
 	{
@@ -51,16 +53,30 @@ char	*expand_line(const char *line)
 		while (line[i] && line[i] != '$')
 			i++;
 		temp = ft_strndup(line + start, i - start);
+		if (!temp)
+        {
+            free(result); // Libera la memoria asignada previamente
+            return (NULL);
+        }
 		expanded = ft_strjoin(result, temp);
 		free(result);
 		free(temp);
+		if (!expanded)
+			return (NULL);
 		result = expanded;
 		if (line[i] == '$')
 		{
 			temp = expand_variable(line, &i);
+			if (!temp)
+			{
+				free(result);
+				return (NULL);
+			}
 			expanded = ft_strjoin(result, temp);
 			free(result);
 			free(temp);
+			if (!expanded)
+				return (NULL);
 			result = expanded;
 		}
 	}

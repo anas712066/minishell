@@ -49,6 +49,7 @@ int	main(void)
 			break ;
 		if (!check_quotes(line))
 		{
+			free(line);
 			continue ;
 		}
 		add_history(line);
@@ -70,7 +71,7 @@ int	main(void)
 			continue ;
 		}
 		tmp = tokens;
-		while (tmp)
+		/*while (tmp)
 		{
 			if (tmp->value && tmp->value[0] == '\0')
 			{
@@ -82,10 +83,27 @@ int	main(void)
 					token_type_to_str(tmp->type));
 			}
 			tmp = tmp->next;
+		}*/
+		while (tmp)
+		{
+			// Llama a handle_empty_token_error y verifica si hay un error
+			if (handle_empty_token_error(tmp->value))
+			{
+				// Si hay un error, pasa al siguiente token
+				tmp = tmp->next;
+				continue;
+			}
+
+			// Procesa el token normalmente si no hay error
+			printf("Token: %-10s Type: %s\n", tmp->value, token_type_to_str(tmp->type));
+			tmp = tmp->next;
 		}
 		free_tokens(tokens);
 		free(line);
 	}
 	printf("exit\n");
+	rl_clear_history();
+	rl_deprep_terminal();
+	clear_history();
 	return (0);
 }
