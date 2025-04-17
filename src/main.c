@@ -53,10 +53,22 @@ int	main(void)
 		}
 		add_history(line);
 		expanded_line = expand_line(line);
+		if (!expanded_line)
+		{
+			fprintf(stderr, "Error: Memory allocation failed\n");
+			free(line);
+			continue ;
+		}
 		free(line); // Libera la línea original
 		line = expanded_line;
 
 		tokens = tokenize(line);
+		if (!tokens)
+		{
+			fprintf(stderr, "Error: Tokenization failed\n");
+			free(line);
+			continue ;
+		}
 		tmp = tokens;
 		while (tmp)
 		{
