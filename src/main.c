@@ -87,7 +87,7 @@ int	main(void)
 		while (tmp)
 		{
 			// Llama a handle_empty_token_error y verifica si hay un error
-			if (handle_empty_token_error(tmp->value))
+			if (tmp->value == NULL || tmp->value[0] == '\0')
 			{
 				// Si hay un error, pasa al siguiente token
 				tmp = tmp->next;

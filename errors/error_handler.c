@@ -28,7 +28,5 @@ void	handle_empty_token_error(const char *token)
 	if (token == NULL || token[0] == '\0')
 	{
 		fprintf(stderr, "Error: Token vacío detectado.\n");
-		return (1);
 	}
-	return (0);
 }
