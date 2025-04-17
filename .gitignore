@@ -24,6 +24,7 @@ obj/
 
 # Valgrind output (si lo usas)
 valgrind-out.txt
+valgrind_output.txt
 
 # Debug logs
 gdb.txt
