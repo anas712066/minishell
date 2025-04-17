@@ -23,7 +23,7 @@ obj/
 .DS_Store
 
 # Valgrind output (si lo usas)
-//valgrind-out.txt
+valgrind-out.txt
 
 # Debug logs
 gdb.txt
