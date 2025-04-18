@@ -15,6 +15,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../include/minishell.h"
+#include "../include/builtins.h"
 #include <signal.h>
 #include <unistd.h>
 
@@ -70,10 +71,11 @@ const char	*token_type_to_str(t_token_type type)
 int	main(void)
 {
 	char	*line;
-	char	*expanded_line;
+	char	*value;
 	t_token	*tokens;
 	t_token	*tmp;
 	t_command *commands;
+
 
 	setup_signal_handlers();
 	while (1)
@@ -87,19 +89,41 @@ int	main(void)
 			continue ;
 		}
 		add_history(line);
-		expanded_line = expand_line(line);
-		if (!expanded_line)
+		tokens = tokenize(line);
+		if (!tokens)
 		{
-			fprintf(stderr, "Error: Memory allocation failed\n");
 			free(line);
 			continue ;
 		}
-		free(line); // Libera la línea original
-		line = expanded_line;
-
-		tokens = tokenize(line);
+		validate_syntax(tokens);
+		if (!validate_syntax(tokens))
+        {
+            free_tokens(tokens);
+            free(line);
+            continue; // Continuamos con la siguiente línea
+        }
+		handle_logical_operator(tokens); 
+		commands = parse_tokens_to_commands(tokens);
+		print_command_list(commands);
+		// Procesamos cada comando
+		t_command *cmd = commands;
+		while (cmd)
+		{
+			// Si es un builtin
+			if (is_builtin(cmd->args[0]))
+			{
+				value = getenv_value("PATH");
+				execute_builtin(cmd, value);
+			}
+			// Si es un comando externo
+			else
+			{
+				return(0);
+			}
+			cmd = cmd->next;
+		}
 		tmp = tokens;
-		/*while (tmp)
+		while (tmp)
 		{
 			if (tmp->value && tmp->value[0] == '\0')
 			{
@@ -111,28 +135,11 @@ int	main(void)
 					token_type_to_str(tmp->type));
 			}
 			tmp = tmp->next;
-		}*/
-		while (tmp)
-		{
-			// Llama a handle_empty_token_error y verifica si hay un error
-			if (tmp->value == NULL || tmp->value[0] == '\0')
-			{
-				// Si hay un error, pasa al siguiente token
-				tmp = tmp->next;
-				continue;
-			}
-
-			// Procesa el token normalmente si no hay error
-			printf("Token: %-10s Type: %s\n", tmp->value, token_type_to_str(tmp->type));
-			tmp = tmp->next;
 		}
 		free_command_list(commands);
 		free_tokens(tokens);
 		free(line);
 	}
 	printf("exit\n");
-	rl_clear_history();
-	rl_deprep_terminal();
-	clear_history();
 	return (0);
 }

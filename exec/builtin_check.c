@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_check.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 18:04:10 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/04/18 18:14:53 by mmilitar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/builtins.h"
+#include "../include/minishell.h"
+#include "../include/parser.h"
 
 int is_builtin(const char *cmd)
 {
@@ -7,15 +21,4 @@ int is_builtin(const char *cmd)
 			!strcmp(cmd, "env") || !strcmp(cmd, "exit"));
 }
 
-int execute_builtin(t_command *cmd, char ***env)
-{
-	if (!cmd || !cmd->args || !cmd->args[0])
-		return (1);
-	if (!strcmp(cmd->args[0], "echo"))
-		return builtin_echo(cmd->args);
-	if (!strcmp(cmd->args[0], "cd"))
-		return builtin_cd(cmd->args);
 
-	// Agregar los demás aquí (cd, pwd, etc.)
-	return (1);
-}
