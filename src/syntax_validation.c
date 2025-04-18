@@ -42,7 +42,7 @@ int validate_syntax(t_token *tokens)
         }
 
         // Comprobar comillas no emparejadas o mal usadas
-        if (current->value && (cur_rent->value[0] == '"' || current->value[0] == '\''))
+        if (current->value && (current->value[0] == '"' || current->value[0] == '\''))
         {
             if (!check_quotes(current->value)) // Verifica si las comillas están emparejadas
             {

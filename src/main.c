@@ -16,6 +16,39 @@
 #include <readline/history.h>
 #include "../include/minishell.h"
 #include <signal.h>
+#include <unistd.h>
+
+#define GREEN "\033[0;32m"
+#define CYAN "\033[0;36m"
+#define RED "\033[0;31m"
+#define RESET "\033[0m"
+
+void	print_command_list(t_command *cmd_list)
+{
+	int i = 1;
+	while (cmd_list)
+	{
+		printf(CYAN "\n=== Comando %d ===\n" RESET, i++);
+		if (cmd_list->args)
+		{
+			printf(GREEN "Args: " RESET);
+			for (int j = 0; cmd_list->args[j]; j++)
+				printf("'%s' ", cmd_list->args[j]);
+			printf("\n");
+		}
+		if (cmd_list->infile)
+			printf(GREEN "Infile: " RESET "'%s' (heredoc: %d)\n", cmd_list->infile, cmd_list->heredoc);
+		if (cmd_list->outfile)
+			printf(GREEN "Outfile: " RESET "'%s' (append: %d)\n", cmd_list->outfile, cmd_list->append);
+		if (cmd_list->pipe)
+			printf(GREEN "Pipe to next command\n" RESET);
+		if (cmd_list->logical_or)
+			printf(GREEN "Logical OR (||) to next command\n" RESET);
+		if (cmd_list->logical_and)
+			printf(GREEN "Logical AND (&&) to next command\n" RESET);
+		cmd_list = cmd_list->next;
+	}
+}
 
 const char	*token_type_to_str(t_token_type type)
 {
@@ -39,6 +72,7 @@ int	main(void)
 	char	*line;
 	t_token	*tokens;
 	t_token	*tmp;
+	t_command *commands;
 
 	setup_signal_handlers();
 	while (1)
@@ -59,15 +93,31 @@ int	main(void)
 			continue ;
 		}
 		validate_syntax(tokens);
-		if (tokens) {
-            handle_logical_operator(tokens); // Aquí es donde se maneja `||`
-        }
 		if (!validate_syntax(tokens))
         {
             free_tokens(tokens);
             free(line);
             continue; // Continuamos con la siguiente línea
         }
+		handle_logical_operator(tokens); 
+		commands = parse_tokens_to_commands(tokens);
+		print_command_list(commands);
+		// Procesamos cada comando
+		t_command *cmd = commands;
+		while (cmd)
+		{
+			// Si es un builtin
+			if (is_builtin(cmd->args[0]))
+			{
+				execute_builtin(cmd);
+			}
+			// Si es un comando externo
+			else
+			{
+				return(0);
+			}
+			cmd = cmd->next;
+		}
 		tmp = tokens;
 		while (tmp)
 		{
@@ -82,6 +132,7 @@ int	main(void)
 			}
 			tmp = tmp->next;
 		}
+		free_command_list(commands);
 		free_tokens(tokens);
 		free(line);
 	}
