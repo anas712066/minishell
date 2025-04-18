@@ -18,6 +18,7 @@
 void	handle_sigint(int sig)
 {
 	(void)sig;
+	g_exit_status = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -27,6 +28,7 @@ void	handle_sigint(int sig)
 void	handle_sigquit(int sig)
 {
 	(void)sig;
+	g_exit_status = 131;
 }
 
 void	setup_signal_handlers(void)

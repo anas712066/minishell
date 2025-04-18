@@ -15,7 +15,7 @@
 
 # include "tokenizer.h"
 # include "error_handler.h"
-# include "libft.h"
+# include "../libft/libft.h"
 # include "signal1.h"
 # include "parser.h"
 # include "syntax_validation.h"
