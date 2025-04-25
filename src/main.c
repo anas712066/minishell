@@ -19,6 +19,8 @@
 #include <signal.h>
 #include <unistd.h>
 
+extern char **environ;
+
 #define GREEN "\033[0;32m"
 #define CYAN "\033[0;36m"
 #define RED "\033[0;31m"
@@ -71,7 +73,7 @@ const char	*token_type_to_str(t_token_type type)
 int	main(void)
 {
 	char	*line;
-	char	*value;
+	//char	*value;
 	t_token	*tokens;
 	t_token	*tmp;
 	t_command *commands;
@@ -102,7 +104,7 @@ int	main(void)
             free(line);
             continue; // Continuamos con la siguiente línea
         }
-		handle_logical_operator(tokens); 
+		handle_logical_operator(tokens);
 		commands = parse_tokens_to_commands(tokens);
 		print_command_list(commands);
 		// Procesamos cada comando
@@ -112,8 +114,8 @@ int	main(void)
 			// Si es un builtin
 			if (is_builtin(cmd->args[0]))
 			{
-				value = getenv_value("PATH");
-				execute_builtin(cmd, value);
+				//value = getenv_value("PATH");
+				execute_builtin(cmd, &environ);
 			}
 			// Si es un comando externo
 			else

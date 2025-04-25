@@ -30,10 +30,11 @@ int	execute_builtin(t_command *cmd, char ***env)
 	return (0); // No es un builtin, ejecutar como externo
 }
 
-char *find_binary_in_path(const char *command) {
+char	*find_binary_in_path(const char *command) {
     char *path = getenv("PATH");
     if (path) {
-        char *dir = strtok(path, ":");
+		printf("PATH: %s\n", path);
+        //char *dir = strtok(path, ":");
         while (dir) {
             char full_path[1024];
             snprintf(full_path, sizeof(full_path), "%s/%s", dir, command);
