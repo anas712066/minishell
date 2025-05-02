@@ -1,6 +1,7 @@
 // parser/command_parser.c
 
 #include "../include/parser.h"
+#include "../include/minishell.h"
 #include <stdlib.h>
 #include <string.h>
 

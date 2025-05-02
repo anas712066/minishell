@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/02 16:54:42 by mumajeed          #+#    #+#             */
+/*   Updated: 2025/05/02 17:07:51 by mumajeed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,19 +42,18 @@ int	execute_builtin(t_command *cmd, char ***env)
 	return (0); // No es un builtin, ejecutar como externo
 }
 
-char	*find_binary_in_path(const char *command) {
+char *find_binary_in_path(const char *command) {
     char *path = getenv("PATH");
     if (path) {
-		printf("PATH: %s\n", path);
-        //char *dir = strtok(path, ":");
+        char *dir = strtok(path, ":"); // Tokenize PATH
         while (dir) {
-            char full_path[1024];
+            char full_path[256];
             snprintf(full_path, sizeof(full_path), "%s/%s", dir, command);
             if (access(full_path, X_OK) == 0) {
-                return strdup(full_path);
+                return strdup(full_path); // Return the full path if executable
             }
-            dir = strtok(NULL, ":");
+            dir = strtok(NULL, ":"); // Move to the next directory
         }
     }
-    return NULL;  // Si no se encuentra el comando
+    return NULL; // Command not found
 }
