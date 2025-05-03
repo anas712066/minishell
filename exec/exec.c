@@ -6,7 +6,7 @@
 /*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:54:42 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/05/02 17:07:51 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/05/03 16:34:44 by mumajeed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,31 @@ int	execute_builtin(t_command *cmd, char ***env)
 	return (0); // No es un builtin, ejecutar como externo
 }
 
-char *find_binary_in_path(const char *command) {
-    char *path = getenv("PATH");
-    if (path) {
-        char *dir = strtok(path, ":"); // Tokenize PATH
-        while (dir) {
-            char full_path[256];
-            snprintf(full_path, sizeof(full_path), "%s/%s", dir, command);
-            if (access(full_path, X_OK) == 0) {
-                return strdup(full_path); // Return the full path if executable
-            }
-            dir = strtok(NULL, ":"); // Move to the next directory
-        }
+char	*find_binary_in_path(const char *command) {
+	char *path = getenv("PATH");
+	if (!path) {
+		return NULL; // PATH is not set
+	}
+
+	char *path_copy = ft_strdup(path); // Duplicate PATH to avoid modifying the original
+	if (!path_copy) {
+		perror("strdup");
+	return NULL;
+	}
+
+	char *dir = strtok(path_copy, ":"); // Tokenize PATH
+	while (dir)
+	{
+		char full_path[256];
+		snprintf(full_path, sizeof(full_path), "%s/%s", dir, command);
+		if (access(full_path, X_OK) == 0)
+		{
+			free(path_copy);
+			return strdup(full_path);
+		}
+		dir = strtok(NULL, ":");
     }
-    return NULL; // Command not found
+
+	free(path_copy);
+	return NULL; // Command not found
 }
