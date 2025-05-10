@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   error_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 16:12:56 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 17:45:51 by mmilitar         ###   ########.fr       */
+/*   Created: 2025/04/16 19:13:11 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/04/18 18:08:11 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/tokenizer.h"
+#include "error_handler.h"
+#include <stdio.h>
 
-char	*ft_strndup(const char *s, size_t n)
+void	handle_quote_error(int quote_type)
 {
-	size_t	i;
-	char	*dup;
-
-	dup = malloc(n + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (i < n && s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
+	if (quote_type == 1)
+		fprintf(stderr, "Error: Comillas simples no cerradas.\n");
+	else if (quote_type == 2)
+		fprintf(stderr, "Error: Comillas dobles no cerradas.\n");
+	else if (quote_type == 3)
+		fprintf(stderr, "Error: Comillas no emparejadas correctamente.\n");
 }
+

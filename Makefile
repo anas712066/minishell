@@ -5,7 +5,7 @@
 # Variables
 NAME := minishell
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -g
+CFLAGS := -Wall -Wextra -Werror -g #-fsanitize=address -fsanitize=undefined
 INCLUDES := -Iinclude -Ilibft
 DEPFLAGS := -MMD -MP
 
@@ -27,10 +27,15 @@ SRCS := src/main.c \
         src/prompt.c \
         src/signal.c \
         src/utils/utils.c \
+        src/utils/history_utils.c \
+        src/syntax_validation.c \
         parser/tokenizer.c \
+        parser/tokenizer_utils.c \
+        parser/tokenizer_functions.c \
         parser/quotes.c \
         parser/expand.c \
         parser/parser_utils.c \
+        parser/command_parser.c \
         builtins/echo.c \
         builtins/cd.c \
         builtins/pwd.c \
@@ -41,7 +46,11 @@ SRCS := src/main.c \
         exec/exec.c \
         exec/redir.c \
         exec/pipe.c \
-        exec/builtin_check.c
+        exec/builtin_check.c \
+        errors/error_handler.c \
+        errors/error_quotes.c \
+        errors/error_arguments.c \
+        errors/error_tokens.c \
 
 # Objetos y dependencias
 OBJS := $(SRCS:%.c=$(OBJDIR)/%.o)

@@ -1,0 +1,78 @@
+flowchart TD
+    %% Flujo principal
+    main[src/main.c: main] --> setup_signals[src/signal.c: setup_signals]
+    main --> loop[Bucle principal]
+    
+    %% Bucle principal
+    loop --> display_prompt[src/prompt.c: display_prompt]
+    display_prompt --> read_input[src/prompt.c: read_input]
+    read_input --> add_history[src/utils/history_utils.c: add_to_history]
+    
+    %% Tokenización
+    read_input --> tokenize[parser/tokenizer.c: tokenize]
+    tokenize --> tokenizer_utils[parser/tokenizer_utils.c: varias funciones]
+    tokenize --> tokenizer_functions[parser/tokenizer_functions.c: varias funciones]
+    
+    %% Validación de sintaxis
+    tokenize --> syntax_validation[src/syntax_validation.c: validate_syntax]
+    syntax_validation -->|Error| error_handler[errors/error_handler.c: handle_error]
+    syntax_validation -.->|Específico| error_quotes[errors/error_quotes.c]
+    syntax_validation -.->|Específico| error_tokens[errors/error_tokens.c]
+    
+    %% Parsing
+    syntax_validation -->|OK| handle_quotes[parser/quotes.c: handle_quotes]
+    handle_quotes --> expand_variables[parser/expand.c: expand_variables]
+    expand_variables --> parse_tokens[parser/parser_utils.c: parse_tokens]
+    
+    %% Ejecución
+    parse_tokens --> execute_command_line[exec/exec.c: execute_command_line]
+    
+    %% Detección de pipeline
+    execute_command_line --> check_pipeline{¿Es pipeline?}
+    check_pipeline -->|Sí| handle_pipeline[exec/pipe.c: handle_pipeline]
+    check_pipeline -->|No| simple_command[Comando simple]
+    
+    %% Manejo de redirecciones
+    simple_command --> handle_redirections[exec/redir.c: handle_redirections]
+    handle_pipeline --> handle_redirections
+    
+    %% Comprobación de builtin
+    handle_redirections --> is_builtin[exec/builtin_check.c: is_builtin]
+    
+    %% Ejecución de builtins
+    is_builtin -->|Sí| exec_builtin[exec/builtin_check.c: exec_builtin]
+    exec_builtin --> builtin_echo[builtins/echo.c: builtin_echo]
+    exec_builtin --> builtin_cd[builtins/cd.c: builtin_cd]
+    exec_builtin --> builtin_pwd[builtins/pwd.c: builtin_pwd]
+    exec_builtin --> builtin_env[builtins/env.c: builtin_env]
+    exec_builtin --> builtin_export[builtins/export.c: builtin_export]
+    exec_builtin --> builtin_unset[builtins/unset.c: builtin_unset]
+    exec_builtin --> builtin_exit[builtins/exit.c: builtin_exit]
+    
+    %% Ejecución de comandos externos (fork, exec, etc)
+    is_builtin -->|No| fork_process[exec/exec.c: fork_process]
+    fork_process --> child_process{Proceso hijo}
+    fork_process --> parent_process{Proceso padre}
+    
+    child_process --> find_executable[exec/exec.c: find_executable]
+    find_executable --> execve[Llamada al sistema execve]
+    
+    parent_process --> wait_for_child[exec/exec.c: wait_for_child]
+    
+    %% Regreso al bucle principal
+    exec_builtin --> loop
+    wait_for_child --> loop
+    error_handler --> loop
+    
+    %% Clases para colores
+    classDef main fill:#f9d5e5
+    classDef parser fill:#d5e8f9
+    classDef exec fill:#d5f9e8
+    classDef builtin fill:#f9ecd5
+    classDef error fill:#f9d5d5
+    
+    class main,setup_signals,loop,display_prompt,read_input main
+    class tokenize,tokenizer_utils,tokenizer_functions,handle_quotes,expand_variables,parse_tokens,syntax_validation parser
+    class execute_command_line,handle_pipeline,handle_redirections,is_builtin,exec_builtin,fork_process,find_executable,wait_for_child exec
+    class builtin_echo,builtin_cd,builtin_pwd,builtin_env,builtin_export,builtin_unset,builtin_exit builtin
+    class error_handler,error_quotes,error_tokens error

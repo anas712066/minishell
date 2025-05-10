@@ -1,0 +1,1 @@
+valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --trace-children=yes --track-origins=yes --suppressions=readline.ignore -q ./minishell
