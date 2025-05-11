@@ -6,7 +6,7 @@
 /*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:54:42 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/05/03 16:34:44 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/05/11 14:33:40 by mumajeed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,46 @@ char	*find_binary_in_path(const char *command) {
 
 	free(path_copy);
 	return NULL; // Command not found
+}
+
+int execute_external_command(t_command *cmd, char ***envp)
+{
+    char *binary_path;
+    pid_t pid;
+    int status;
+
+    if (!cmd || !cmd->args || !cmd->args[0])
+        return (1); // Comando vacío
+
+    binary_path = find_binary_in_path(cmd->args[0]);
+    if (!binary_path)
+    {
+        fprintf(stderr, "minishell: command not found: %s\n", cmd->args[0]);
+        return (127); // Código de error para comando no encontrado
+    }
+
+    pid = fork();
+    if (pid == 0) // Proceso hijo
+    {
+        if (execve(binary_path, cmd->args, *envp) == -1)
+        {
+            perror("execve");
+            exit(1);
+        }
+    }
+    else if (pid > 0) // Proceso padre
+    {
+        waitpid(pid, &status, 0);
+        free(binary_path);
+        if (WIFEXITED(status))
+            return (WEXITSTATUS(status)); // Código de salida del hijo
+    }
+    else
+    {
+        perror("fork");
+        free(binary_path);
+        return (1);
+    }
+
+    return (0);
 }

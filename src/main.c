@@ -111,18 +111,17 @@ int	main(void)
 		t_command *cmd = commands;
 		while (cmd)
 		{
-			// Si es un builtin
-			if (is_builtin(cmd->args[0]))
-			{
-				//value = getenv_value("PATH");
-				execute_builtin(cmd, &environ);
-			}
-			// Si es un comando externo
-			else
-			{
-				return(0);
-			}
-			cmd = cmd->next;
+    	// Si es un builtin
+    		if (is_builtin(cmd->args[0]))
+    		{
+        		execute_builtin(cmd, &environ);
+    		}
+    	// Si es un comando externo
+    		else
+    			{
+        			execute_external_command(cmd, &environ);
+    			}
+    			cmd = cmd->next;
 		}
 		tmp = tokens;
 		while (tmp)
