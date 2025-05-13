@@ -19,7 +19,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-extern char **environ;
+extern char	**environ;
 
 #define GREEN "\033[0;32m"
 #define CYAN "\033[0;36m"
@@ -28,7 +28,9 @@ extern char **environ;
 
 void	print_command_list(t_command *cmd_list)
 {
-	int i = 1;
+	int	i;
+
+	i = 0;
 	while (cmd_list)
 	{
 		printf(CYAN "\n=== Comando %d ===\n" RESET, i++);
