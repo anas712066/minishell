@@ -86,7 +86,11 @@ int	main(void)
 	{
 		line = readline("minishell> ");
 		if (!line)
+		{
+			printf("\n");
 			break ;
+		}
+		
 		if (!check_quotes(line))
 		{
 			free(line);

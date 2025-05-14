@@ -11,32 +11,24 @@ int validate_syntax(t_token *tokens)
     while (current)
     {
         // Verificar redirecciones
-        if (current->type == T_REDIR_OUT || current->type == T_APPEND)
+        if (current->type == T_REDIR_OUT || current->type == T_APPEND ||
+            current->type == T_REDIR_IN || current->type == T_HEREDOC)
         {
             // Redirección sin un siguiente token que sea un T_WORD
             if (!current->next || current->next->type != T_WORD)
             {
-                handle_invalid_redir_error();  // Error de redirección mal formada
+                fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
                 return (0);
             }
-        }
-
-        // Verificar redirección de entrada o salida mal colocada
-        if ((current->type == T_REDIR_OUT || current->type == T_REDIR_IN) && 
-            (!current->next || current->next->type != T_WORD)) 
-        {
-            handle_redir_error();
-            return (0);
         }
 
         // Verificar pipes mal colocados
         if (current->type == T_PIPE)
         {
-            // Pipe al principio, al final o seguido de otro pipe o operador lógico || es inválido
-            if (current == tokens || current->next == NULL || 
-                current->next->type == T_PIPE || current->next->type == T_LOGICAL_OR)
+            // Pipe al principio, al final o seguido de otro pipe
+            if (current == tokens || !current->next || current->next->type == T_PIPE)
             {
-                handle_invalid_pipe_error();  // Error de pipe mal colocado
+                fprintf(stderr, "minishell: syntax error near unexpected token `|'\n");
                 return (0);
             }
         }
@@ -53,9 +45,8 @@ int validate_syntax(t_token *tokens)
         current = current->next;
     }
 
-    return 1;  // Sintaxis válida
+    return (1); // Sintaxis válida
 }
-
 
 int execute_command(t_token *tokens) {
     pid_t pid;
@@ -63,7 +54,7 @@ int execute_command(t_token *tokens) {
     char *argv[] = {tokens->value, NULL};  // El primer token es el comando, como "ls"
     char *path = "/bin/";  // Ruta del directorio donde se encuentran los comandos (para simplificar)
     char full_path[256];   // Aquí almacenamos la ruta completa del ejecutable
-    
+
     // Concatenar la ruta y el comando (por ejemplo, "/bin/ls")
     snprintf(full_path, sizeof(full_path), "%s%s", path, tokens->value);
 
