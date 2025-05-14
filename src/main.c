@@ -90,7 +90,7 @@ int	main(void)
 			printf("\n");
 			break ;
 		}
-		
+
 		if (!check_quotes(line))
 		{
 			free(line);
@@ -103,7 +103,6 @@ int	main(void)
 			free(line);
 			continue ;
 		}
-		validate_syntax(tokens);
 		if (!validate_syntax(tokens))
         {
             free_tokens(tokens);

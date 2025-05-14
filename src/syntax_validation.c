@@ -79,23 +79,26 @@ int execute_command(t_token *tokens) {
     return 0;  // Deberías manejar este caso también
 }
 
-int handle_logical_operator(t_token *tokens) {
+int handle_logical_operator(t_token *tokens)
+{
     int status = 0;
 
-    // Ejecutar el primer comando (ej. cat)
-    if (tokens->type == T_WORD) {
-        status = execute_command(tokens); // Ejecutar cat
-    }
-
-    // Si el primer comando falla y el operador es `||`
-    if (status != 0 && tokens->next != NULL && tokens->next->type == T_LOGICAL_OR) {
-        tokens = tokens->next->next; // Avanzar al siguiente comando (ls)
-        if (tokens->type == T_WORD) {
-            // Ejecutar ls si cat falló
-            execute_command(tokens);
+    while (tokens)
+    {
+        if (tokens->type == T_WORD)
+        {
+            status = execute_command(tokens); // Pasa el token completo
         }
+        else if (tokens->type == T_LOGICAL_AND && status == 0)
+        {
+            tokens = tokens->next; // Ejecuta el siguiente comando si el anterior tuvo éxito
+        }
+        else if (tokens->type == T_LOGICAL_OR && status != 0)
+        {
+            tokens = tokens->next; // Ejecuta el siguiente comando si el anterior falló
+        }
+        tokens = tokens->next;
     }
-
     return status;
 }
 

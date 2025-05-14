@@ -6,7 +6,7 @@
 /*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:54:42 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/05/11 14:33:40 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:15:36 by mumajeed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ int	execute_builtin(t_command *cmd, char ***env)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (0);
-
-	if (strcmp(cmd->args[0], "echo") == 0)
+	if (strcmp(cmd->args[0], "cat") == 0 && !cmd->args[1])
+	{
+		printf("minishell: cat: waiting for input (Ctrl+D to exit)\n");
+	}
+	else if (strcmp(cmd->args[0], "echo") == 0)
 		return (builtin_echo(cmd->args));
 	else if (strcmp(cmd->args[0], "cd") == 0)
 		return (builtin_cd(cmd->args));

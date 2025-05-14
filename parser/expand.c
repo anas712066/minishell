@@ -6,7 +6,7 @@
 /*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:46:23 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/04/16 22:32:23 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:12:18 by mumajeed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,24 @@ int	g_exit_status = 0;
 
 char	*expand_variable(const char *line, int *i)
 {
-	int		start;
-	char	*var_name;
-	char	*value;
+    int		start;
+    char	*var_name;
+    char	*value;
 
-	start = ++(*i);
-	if (line[start] == '?')
-	{
-		(*i)++;
-		return (ft_itoa(g_exit_status));
-	}
-	while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
-		(*i)++;
-	var_name = ft_strndup(line + start, *i - start);
-	value = getenv(var_name);
-	free(var_name);
-	return (value ? ft_strdup(value) : ft_strdup(""));
+    start = ++(*i); // Avanza después del '$'
+    if (line[start] == '?') // Manejar $?
+    {
+        (*i)++;
+        return (ft_itoa(g_exit_status)); // Devuelve el código de salida como string
+    }
+    while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
+        (*i)++;
+    var_name = ft_strndup(line + start, *i - start); // Extrae el nombre de la variable
+    if (!var_name)
+        return (NULL);
+    value = getenv(var_name); // Obtiene el valor de la variable de entorno
+    free(var_name);
+    return (value ? ft_strdup(value) : ft_strdup("")); // Devuelve el valor o una cadena vacía
 }
 
 char	*expand_line(const char *line)
