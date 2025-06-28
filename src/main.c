@@ -29,6 +29,7 @@ int g_last_exit_code = 0;
 #define RED "\033[0;31m"
 #define RESET "\033[0m"
 
+
 // Función para validar redirecciones antes de ejecutar
 int validate_redirections(t_command *cmd)
 {
@@ -167,8 +168,15 @@ int	main(int argc, char **argv, char **envp)
 				if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
 				{
 					// Para builtins, aplicar redirecciones aquí
-					int stdin_backup = dup(STDIN_FILENO);
-					int stdout_backup = dup(STDOUT_FILENO);
+					int stdin_backup = -1;
+					int stdout_backup = -1;
+					
+					// Hacer backup de descriptores originales
+					if (cmd->infile || cmd->outfile)
+					{
+						stdin_backup = dup(STDIN_FILENO);
+						stdout_backup = dup(STDOUT_FILENO);
+					}
 					
 					if (apply_redirections(cmd) == 0)
 					{
@@ -179,11 +187,17 @@ int	main(int argc, char **argv, char **envp)
 						g_last_exit_code = 1;
 					}
 					
-					// Restaurar file descriptors
-					dup2(stdin_backup, STDIN_FILENO);
-					dup2(stdout_backup, STDOUT_FILENO);
-					close(stdin_backup);
-					close(stdout_backup);
+					// Restaurar file descriptors SOLO si se hicieron backups
+					if (stdin_backup != -1)
+					{
+						dup2(stdin_backup, STDIN_FILENO);
+						close(stdin_backup);
+					}
+					if (stdout_backup != -1)
+					{
+						dup2(stdout_backup, STDOUT_FILENO);
+						close(stdout_backup);
+					}
 				}
 				else if (cmd->args && cmd->args[0])
 				{

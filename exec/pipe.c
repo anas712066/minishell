@@ -6,14 +6,20 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 12:59:18 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/28 22:09:09 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/28 22:51:01 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/wait.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <string.h>
 #include "../include/exec.h"
+#include "../include/minishell.h"
+
 
 int execute_pipeline(t_command *cmd, char ***envp)
 {
