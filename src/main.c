@@ -18,6 +18,9 @@
 #include "../include/builtins.h"
 #include <signal.h>
 #include <unistd.h>
+#include "../include/exec.h"
+#include <fcntl.h>      // Para open(), O_RDONLY, O_WRONLY, O_CREAT, etc.
+#include <string.h> 
 
 int g_last_exit_code = 0;
 
@@ -26,50 +29,74 @@ int g_last_exit_code = 0;
 #define RED "\033[0;31m"
 #define RESET "\033[0m"
 
-void	print_command_list(t_command *cmd_list)
+// Función para validar redirecciones antes de ejecutar
+int validate_redirections(t_command *cmd)
 {
-	int	i;
-
-	i = 0;
-	while (cmd_list)
-	{
-		printf(CYAN "\n=== Comando %d ===\n" RESET, i++);
-		if (cmd_list->args)
-		{
-			printf(GREEN "Args: " RESET);
-			for (int j = 0; cmd_list->args[j]; j++)
-				printf("'%s' ", cmd_list->args[j]);
-			printf("\n");
-		}
-		if (cmd_list->infile)
-			printf(GREEN "Infile: " RESET "'%s' (heredoc: %d)\n", cmd_list->infile, cmd_list->heredoc);
-		if (cmd_list->outfile)
-			printf(GREEN "Outfile: " RESET "'%s' (append: %d)\n", cmd_list->outfile, cmd_list->append);
-		if (cmd_list->pipe)
-			printf(GREEN "Pipe to next command\n" RESET);
-		if (cmd_list->logical_or)
-			printf(GREEN "Logical OR (||) to next command\n" RESET);
-		if (cmd_list->logical_and)
-			printf(GREEN "Logical AND (&&) to next command\n" RESET);
-		cmd_list = cmd_list->next;
-	}
+    // Validar archivo de entrada
+    if (cmd->infile)
+    {
+        if (access(cmd->infile, F_OK) == -1)
+        {
+            write(STDERR_FILENO, "minishell: ", 11);
+            write(STDERR_FILENO, cmd->infile, strlen(cmd->infile));
+            write(STDERR_FILENO, ": No such file or directory\n", 28);
+            return (1);  // Error
+        }
+        if (access(cmd->infile, R_OK) == -1)
+        {
+            write(STDERR_FILENO, "minishell: ", 11);
+            write(STDERR_FILENO, cmd->infile, strlen(cmd->infile));
+            write(STDERR_FILENO, ": Permission denied\n", 20);
+            return (1);  // Error
+        }
+    }
+    
+    // Validar archivo de salida (solo el directorio padre)
+    if (cmd->outfile)
+    {
+        // Aquí podrías validar si el directorio padre existe y es escribible
+        // Por ahora, lo dejamos para que open() maneje el error
+    }
+    
+    return (0);  // Todo correcto
 }
 
-const char	*token_type_to_str(t_token_type type)
+// Función para aplicar redirecciones (separada de la validación)
+int apply_redirections(t_command *cmd)
 {
-	if (type == T_WORD)
-		return ("WORD");
-	if (type == T_PIPE)
-		return ("PIPE");
-	if (type == T_REDIR_IN)
-		return ("REDIR_IN");
-	if (type == T_REDIR_OUT)
-		return ("REDIR_OUT");
-	if (type == T_APPEND)
-		return ("APPEND");
-	if (type == T_HEREDOC)
-		return ("HEREDOC");
-	return ("UNKNOWN");
+    // Redirección de entrada (<)
+    if (cmd->infile)
+    {
+        int fd = open(cmd->infile, O_RDONLY);
+        if (fd == -1)
+        {
+            perror("open");
+            return (1);
+        }
+        dup2(fd, STDIN_FILENO);
+        close(fd);
+    }
+    
+    // Redirección de salida (> o >>)
+    if (cmd->outfile)
+    {
+        int flags = O_WRONLY | O_CREAT;
+        if (cmd->append)
+            flags |= O_APPEND;
+        else
+            flags |= O_TRUNC;
+            
+        int fd = open(cmd->outfile, flags, 0644);
+        if (fd == -1)
+        {
+            perror("open");
+            return (1);
+        }
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
+    }
+    
+    return (0);  // Éxito
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -117,19 +144,54 @@ int	main(int argc, char **argv, char **envp)
 		t_command *cmd = commands;
 		while (cmd)
 		{
-			if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
+			// PRIMERO: Validar redirecciones
+			if (validate_redirections(cmd) != 0)
 			{
-				g_last_exit_code = execute_builtin(cmd, &envp);
+				g_last_exit_code = 1;  // Error en redirecciones
+				cmd = cmd->next;
+				continue;
 			}
-			else if (cmd->args && cmd->args[0])
+			
+			if (cmd->pipe)
 			{
-				g_last_exit_code = execute_external_command(cmd, &envp);
+				// Pipeline
+				g_last_exit_code = execute_pipeline(cmd, &envp);
+				while (cmd && cmd->pipe)
+					cmd = cmd->next;
+				if (cmd)
+					cmd = cmd->next;
 			}
 			else
 			{
-				g_last_exit_code = 0;  // Comando vacío = éxito
+				// Comando simple
+				if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
+				{
+					// Para builtins, aplicar redirecciones aquí
+					int stdin_backup = dup(STDIN_FILENO);
+					int stdout_backup = dup(STDOUT_FILENO);
+					
+					if (apply_redirections(cmd) == 0)
+					{
+						g_last_exit_code = execute_builtin(cmd, &envp);
+					}
+					else
+					{
+						g_last_exit_code = 1;
+					}
+					
+					// Restaurar file descriptors
+					dup2(stdin_backup, STDIN_FILENO);
+					dup2(stdout_backup, STDOUT_FILENO);
+					close(stdin_backup);
+					close(stdout_backup);
+				}
+				else if (cmd->args && cmd->args[0])
+				{
+					// Para comandos externos, la redirección ya está en execute_external_command
+					g_last_exit_code = execute_external_command(cmd, &envp);
+				}
+				cmd = cmd->next;
 			}
-			cmd = cmd->next;
 		}
 		tmp = tokens;
 		while (tmp)

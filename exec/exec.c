@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:54:42 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/28 17:34:00 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/28 21:58:49 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>      // Para open(), O_RDONLY, O_WRONLY, O_CREAT, etc.
+#include <string.h> 
 #include <sys/wait.h>
 
 #include "../include/builtins.h"
@@ -101,13 +103,52 @@ int execute_external_command(t_command *cmd, char ***envp)
     binary_path = find_binary_in_path(cmd->args[0]);
     if (!binary_path)
     {
-        fprintf(stderr, "minishell: command not found: %s\n", cmd->args[0]);
+        write(STDERR_FILENO, "minishell: command not found: ", 30);
+        write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
+        write(STDERR_FILENO, "\n", 1);
         return (127);
     }
 
     pid = fork();
     if (pid == 0) // Proceso hijo
     {
+        // APLICAR REDIRECCIONES ANTES DE EXECVE
+        
+        // Redirección de entrada (<)
+        if (cmd->infile)
+        {
+            int fd = open(cmd->infile, O_RDONLY);
+            if (fd == -1)
+            {
+                perror("open");
+                free(binary_path);
+                exit(1);
+            }
+            dup2(fd, STDIN_FILENO);
+            close(fd);
+        }
+        
+        // Redirección de salida (>)
+        if (cmd->outfile)
+        {
+            int flags = O_WRONLY | O_CREAT;
+            if (cmd->append)
+                flags |= O_APPEND;
+            else
+                flags |= O_TRUNC;
+                
+            int fd = open(cmd->outfile, flags, 0644);
+            if (fd == -1)
+            {
+                perror("open");
+                free(binary_path);
+                exit(1);
+            }
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        
+        // DESPUÉS ejecutar el comando
         if (execve(binary_path, cmd->args, *envp) == -1)
         {
             perror("execve failed");
@@ -130,5 +171,5 @@ int execute_external_command(t_command *cmd, char ***envp)
         return (1);
     }
 
-    return (0); // Esta línea corrige el "ret" incompleto
+    return (0);
 }
