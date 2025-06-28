@@ -19,7 +19,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-extern char	**environ;
+int g_last_exit_code = 0;
 
 #define GREEN "\033[0;32m"
 #define CYAN "\033[0;36m"
@@ -72,7 +72,7 @@ const char	*token_type_to_str(t_token_type type)
 	return ("UNKNOWN");
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	//char	*value;
@@ -80,7 +80,8 @@ int	main(void)
 	t_token	*tmp;
 	t_command *commands;
 
-
+	(void)argc;  // Para evitar warning de variable no usada
+    (void)argv;
 	setup_signal_handlers();
 	while (1)
 	{
@@ -109,24 +110,26 @@ int	main(void)
             free(line);
             continue; // Continuamos con la siguiente línea
         }
-		handle_logical_operator(tokens);
+		handle_logical_operator(tokens);  //esta esta mal !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		commands = parse_tokens_to_commands(tokens);
-		print_command_list(commands);
+		//print_command_list(commands);
 		// Procesamos cada comando
 		t_command *cmd = commands;
 		while (cmd)
 		{
-    	// Si es un builtin
-    		if (is_builtin(cmd->args[0]))
-    		{
-        		execute_builtin(cmd, &environ);
-    		}
-    	// Si es un comando externo
-    		else
-    			{
-        			execute_external_command(cmd, &environ);
-    			}
-    			cmd = cmd->next;
+			if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
+			{
+				g_last_exit_code = execute_builtin(cmd, &envp);
+			}
+			else if (cmd->args && cmd->args[0])
+			{
+				g_last_exit_code = execute_external_command(cmd, &envp);
+			}
+			else
+			{
+				g_last_exit_code = 0;  // Comando vacío = éxito
+			}
+			cmd = cmd->next;
 		}
 		tmp = tokens;
 		while (tmp)
@@ -135,11 +138,14 @@ int	main(void)
 			{
 				handle_empty_token_error(tmp->value);
 			}
+			/*
 			else
 			{
 				printf("Token: %-10s Type: %s\n", tmp->value,
 					token_type_to_str(tmp->type));
 			}
+			*/
+			
 			tmp = tmp->next;
 		}
 		free_command_list(commands);

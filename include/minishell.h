@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:10:27 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/05/02 16:38:15 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/06/28 19:07:27 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@
 # include "syntax_validation.h"
 # include "env.h"
 
-
+extern int g_last_exit_code;
 
 #endif

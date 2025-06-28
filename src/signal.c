@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:44:54 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/05/14 14:01:15 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:50:36 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,29 @@
 #include <readline/readline.h>
 #include "../include/minishell.h"
 
-extern int g_exit_status;
+static int g_signal = 0;
 
-void	handle_sigint(int sig)
+void handle_sigint(int sig)
 {
     (void)sig;
-    g_exit_status = 130; // Código de salida para Ctrl+C
+    g_signal = SIGINT;
     write(STDOUT_FILENO, "\n", 1);
-    rl_on_new_line();       // Indica que estamos en una nueva línea
-    rl_replace_line("", 0); // Limpia la línea actual
-    rl_redisplay();         // Redibuja el prompt
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
 }
 
-void	handle_sigquit(int sig)
+void handle_sigquit(int sig)
 {
     (void)sig;
-    g_exit_status = 131; /*// Código de salida para Ctrl+\
-    // No hacemos nada más (comportamiento como bash)*/
+    g_signal = SIGQUIT;
 }
 
-void	setup_signal_handlers(void)
+void setup_signal_handlers(void)
 {
-    // Configura los manejadores de señales solo en modo interactivo
     if (isatty(STDIN_FILENO))
     {
-        signal(SIGINT, handle_sigint);   // Ctrl+C
-        signal(SIGQUIT, handle_sigquit); /*// Ctrl+\*/
+        signal(SIGINT, handle_sigint);
+        signal(SIGQUIT, handle_sigquit);
     }
 }

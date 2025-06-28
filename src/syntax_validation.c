@@ -79,27 +79,45 @@ int execute_command(t_token *tokens) {
     return 0;  // Deberías manejar este caso también
 }
 
+// Función para verificar y validar operadores lógicos y pipes
 int handle_logical_operator(t_token *tokens)
 {
-    int status = 0;
-
-    while (tokens)
+    t_token *current = tokens;
+    
+    while (current)
     {
-        if (tokens->type == T_WORD)
+        if (current->type == T_PIPE)
         {
-            status = execute_command(tokens); // Pasa el token completo
+            // Verificar que hay comandos antes y después del pipe
+            if (!current->next || current->next->type != T_WORD)
+            {
+                printf("minishell: syntax error near unexpected token `|'\n");
+                return (0); // Error de sintaxis
+            }
         }
-        else if (tokens->type == T_LOGICAL_AND && status == 0)
+        else if (current->type == T_LOGICAL_AND)
         {
-            tokens = tokens->next; // Ejecuta el siguiente comando si el anterior tuvo éxito
+            // Verificar que hay comandos antes y después de &&
+            if (!current->next || current->next->type != T_WORD)
+            {
+                printf("minishell: syntax error near unexpected token `&&'\n");
+                return (0); // Error de sintaxis
+            }
         }
-        else if (tokens->type == T_LOGICAL_OR && status != 0)
+        else if (current->type == T_LOGICAL_OR)
         {
-            tokens = tokens->next; // Ejecuta el siguiente comando si el anterior falló
+            // Verificar que hay comandos antes y después de ||
+            if (!current->next || current->next->type != T_WORD)
+            {
+                printf("minishell: syntax error near unexpected token `||'\n");
+                return (0); // Error de sintaxis
+            }
         }
-        tokens = tokens->next;
+        
+        current = current->next;
     }
-    return status;
+    
+    return (1); // Todo correcto
 }
 
 int validate_command_exists(const char *command)

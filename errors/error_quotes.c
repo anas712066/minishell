@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 20:16:38 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 21:06:06 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:19:26 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,32 @@
 int	check_quotes(const char *line)
 {
 	int	i;
-	int	quote_count_single;
-	int	quote_count_double;
+	int	in_single_quote;
+	int	in_double_quote;
 
 	i = 0;
-	quote_count_single = 0;
-	quote_count_double = 0;
-	while (line[i] != '\0')
+	in_single_quote = 0;
+	in_double_quote = 0;
+	while (line[i])
 	{
-		if (line[i] == '"')
-			quote_count_double++;
-		else if (line[i] == '\'')
-			quote_count_single++;
+		if (line[i] == '\'' && !in_double_quote)
+		{
+			in_single_quote = !in_single_quote;
+		}
+		else if (line[i] == '"' && !in_single_quote)
+		{
+			in_double_quote = !in_double_quote;
+		}
 		i++;
 	}
-	if (quote_count_single % 2 || quote_count_double % 2)
+	if (in_single_quote)
 	{
-		handle_quote_error((quote_count_single % 2) + 2
-			* (quote_count_double % 2));
+		printf("Error: Comillas simples no cerradas.\n");
+		return (0);
+	}
+	if (in_double_quote)
+	{
+		printf("Error: Comillas dobles no cerradas.\n");
 		return (0);
 	}
 	return (1);

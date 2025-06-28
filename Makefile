@@ -36,6 +36,7 @@ SRCS := src/main.c \
         parser/expand.c \
         parser/parser_utils.c \
         parser/command_parser.c \
+        parser/variable_expansion.c \
         builtins/echo.c \
         builtins/cd.c \
         builtins/pwd.c \

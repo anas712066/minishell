@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:41:48 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 18:07:17 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:29:23 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,26 @@ t_token	*new_token(char *value, t_token_type type)
 	return (token);
 }
 
-void	add_token(t_token **tokens, t_token *new)
-{
-	t_token	*tmp;
 
-	tmp = *tokens;
-	if (!*tokens)
-	{
-		*tokens = new;
-		return ;
-	}
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
+// Función para agregar un token a la lista
+void add_token(t_token **tokens, t_token *new_token)
+{
+    t_token *current;
+    
+    if (!new_token)
+        return;
+    
+    if (!*tokens)
+    {
+        *tokens = new_token;
+        return;
+    }
+    
+    current = *tokens;
+    while (current->next)
+        current = current->next;
+    
+    current->next = new_token;
 }
 
 char	*extract_word(const char *line, int *i)
