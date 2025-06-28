@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:11:40 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/28 20:53:35 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/28 21:18:44 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,21 @@ void	handle_command_not_found_error(void);
 int		check_quotes(const char *line);
 void	validate_tokens(t_token *tokens);
 void	handle_invalid_pipe_error(void);
+
+/* Errores de argumentos */
+void	handle_redir_error(void);
+void	handle_command_not_found_error(void);
+void	handle_missing_argument_error(const char *command);
+void	handle_invalid_redir_error(void);
+void	handle_invalid_pipe_error(void);
+
+/* Errores de builtins */
+void	handle_cd_too_many_args_error(void);
+void	handle_cd_home_not_set_error(void);
+void	handle_export_invalid_identifier_error(const char *arg);
+void	handle_exit_numeric_argument_error(const char *arg);
+void	handle_exit_too_many_args_error(void);
+void	handle_unset_invalid_identifier_error(const char *arg);
+
 
 #endif
