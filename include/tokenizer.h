@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:28:57 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/28 23:17:26 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/28 23:33:41 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ typedef enum e_token_type
 	T_REDIR_OUT, /* > */
 	T_APPEND, /* >> */
 	T_HEREDOC, /* << */
-	T_LOGICAL_OR, // Para ||
-	T_LOGICAL_AND, // Para &&
-	T_UNKNOWN
 }	t_token_type;
 
 /* Estructura de token */

@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:24:03 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/28 23:16:59 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/28 23:36:14 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,22 @@ t_token *process_token(char *line, int *i)
     // Manejo de operadores especiales
     if (line[*i] == '|')
     {
-        if (line[*i + 1] == '|')
-        {
-            (*i) += 2;
-            return create_token(ft_strdup("||"), T_LOGICAL_OR);
-        }
+        // QUITAR TODA LA PARTE DE ||:
+        // if (line[*i + 1] == '|')
+        // {
+        //     (*i) += 2;
+        //     return create_token(ft_strdup("||"), T_LOGICAL_OR);
+        // }
         (*i)++;
         return create_token(ft_strdup("|"), T_PIPE);
     }
     
-    if (line[*i] == '&' && line[*i + 1] == '&')
-    {
-        (*i) += 2;
-        return create_token(ft_strdup("&&"), T_LOGICAL_AND);
-    }
+    // QUITAR TODA LA PARTE DE &&:
+    // if (line[*i] == '&' && line[*i + 1] == '&')
+    // {
+    //     (*i) += 2;
+    //     return create_token(ft_strdup("&&"), T_LOGICAL_AND);
+    // }
     
     if (line[*i] == '<')
     {
@@ -88,9 +90,11 @@ t_token *process_token(char *line, int *i)
     }
     
     // Para palabras (incluyendo las que tienen comillas)
-    value = extract_word_with_quotes(line, i);
+    value = extract_word_with_quotes(line, i);  // ← Corregir esta línea
     if (!value)
         return NULL;
     
-    return create_token(value, T_WORD);
+    t_token *token = create_token(value, T_WORD);
+    
+    return token;
 }

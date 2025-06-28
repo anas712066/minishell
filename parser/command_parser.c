@@ -16,12 +16,11 @@ static t_command	*new_command(void)
 	cmd->append = 0;
 	cmd->heredoc = 0;
 	cmd->pipe = 0;
-	cmd->logical_or = 0;
-	cmd->logical_and = 0;
+	// cmd->logical_or = 0;     ← QUITAR
+	// cmd->logical_and = 0;    ← QUITAR
 	cmd->next = NULL;
 	return (cmd);
 }
-
 static char	**add_arg(char **args, char *value)
 {
 	int		i;
@@ -84,6 +83,8 @@ t_command	*parse_tokens_to_commands(t_token *tokens)
 			current->next = new_command();
 			current = current->next;
 		}
+		// QUITAR ESTAS LÍNEAS (87-99):
+		/*
 		else if (tokens->type == T_LOGICAL_OR)
 		{
 			current->logical_or = 1;
@@ -96,6 +97,7 @@ t_command	*parse_tokens_to_commands(t_token *tokens)
 			current->next = new_command();
 			current = current->next;
 		}
+		*/
 		tokens = tokens->next;
 	}
 	return (head);

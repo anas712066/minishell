@@ -94,7 +94,7 @@ int handle_logical_operator(t_token *tokens)
                 printf("minishell: syntax error near unexpected token `|'\n");
                 return (0); // Error de sintaxis
             }
-        }
+        }/*
         else if (current->type == T_LOGICAL_AND)
         {
             // Verificar que hay comandos antes y después de &&
@@ -113,6 +113,8 @@ int handle_logical_operator(t_token *tokens)
                 return (0); // Error de sintaxis
             }
         }
+        
+        */
         
         current = current->next;
     }
