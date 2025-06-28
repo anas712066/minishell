@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:25 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 00:04:12 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 01:33:36 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,8 @@ typedef struct s_redir
 typedef struct s_command
 {
 	char	**args; // Argumentos del comando
-	char	*infile; // Redirección de entrada (< o <<)
-	char	*outfile; // Redirección de salida (> o >>)
-	int		append; // 1 si es >>, 0 si es >
-	int		heredoc; // 1 si es <<, 0 si es <
-	int		pipe; // 1 si hay un pipe después
-	int		logical_or; // 1 si hay un || después
-	int		logical_and; // 1 si hay un && después
+	t_redir         *redirs;    // Lista de redirecciones
+    int             pipe;       // 1 si hay pipe después de este comando
 	struct s_command	*next; // Comando siguiente
 }	t_command;
 

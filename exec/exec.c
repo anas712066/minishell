@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:54:42 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 01:22:55 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 01:42:03 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ char *find_binary_in_path(const char *command)
     return NULL;
 }
 
-// Función corregida para ejecutar comandos externos
 // Función corregida para ejecutar comandos externos
 int execute_external_command(t_command *cmd, char ***envp)
 {
@@ -189,40 +188,11 @@ int execute_external_command(t_command *cmd, char ***envp)
     pid = fork();
     if (pid == 0) // Proceso hijo
     {
-        // APLICAR REDIRECCIONES ANTES DE EXECVE
-        
-        // Redirección de entrada (<)
-        if (cmd->infile)
+        // Aplicar redirecciones usando la nueva función
+        if (handle_redirections(cmd) != 0)
         {
-            int fd = open(cmd->infile, O_RDONLY);
-            if (fd == -1)
-            {
-                perror("open");
-                free(binary_path);
-                exit(1);
-            }
-            dup2(fd, STDIN_FILENO);
-            close(fd);
-        }
-        
-        // Redirección de salida (>)
-        if (cmd->outfile)
-        {
-            int flags = O_WRONLY | O_CREAT;
-            if (cmd->append)
-                flags |= O_APPEND;
-            else
-                flags |= O_TRUNC;
-                
-            int fd = open(cmd->outfile, flags, 0644);
-            if (fd == -1)
-            {
-                perror("open");
-                free(binary_path);
-                exit(1);
-            }
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
+            free(binary_path);
+            exit(1);
         }
         
         // DESPUÉS ejecutar el comando

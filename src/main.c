@@ -29,42 +29,11 @@ extern int g_last_status;  // Variable definida en expand.c
 #define RED "\033[0;31m"
 #define RESET "\033[0m"
 
-// Función para aplicar redirecciones (separada de la validación)
+// Función para aplicar redirecciones (para builtins)
 int apply_redirections(t_command *cmd)
 {
-    // Redirección de entrada (<)
-    if (cmd->infile)
-    {
-        int fd = open(cmd->infile, O_RDONLY);
-        if (fd == -1)
-        {
-            perror("open");
-            return (1);
-        }
-        dup2(fd, STDIN_FILENO);
-        close(fd);
-    }
-    
-    // Redirección de salida (> o >>)
-    if (cmd->outfile)
-    {
-        int flags = O_WRONLY | O_CREAT;
-        if (cmd->append)
-            flags |= O_APPEND;
-        else
-            flags |= O_TRUNC;
-            
-        int fd = open(cmd->outfile, flags, 0644);
-        if (fd == -1)
-        {
-            perror("open");
-            return (1);
-        }
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
-    }
-    
-    return (0);  // Éxito
+    // Para builtins, usar la misma función que para comandos externos
+    return handle_redirections(cmd);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -128,8 +97,8 @@ int	main(int argc, char **argv, char **envp)
 					int stdin_backup = -1;
 					int stdout_backup = -1;
 					
-					// Hacer backup de descriptores originales
-					if (cmd->infile || cmd->outfile)
+					// Hacer backup de descriptores originales SI hay redirecciones
+					if (cmd->redirs)
 					{
 						stdin_backup = dup(STDIN_FILENO);
 						stdout_backup = dup(STDOUT_FILENO);
