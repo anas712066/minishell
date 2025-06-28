@@ -20,7 +20,7 @@ char *expand_variables(char *str)
         {
             if (str[i + 1] == '?')  // Caso especial: $?
             {
-                char *exit_code_str = ft_itoa(g_last_exit_code);
+                char *exit_code_str = ft_itoa(g_last_status);
                 if (exit_code_str)
                 {
                     int k = 0;

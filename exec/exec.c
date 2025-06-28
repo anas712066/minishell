@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:54:42 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/28 21:58:49 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 01:22:55 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <fcntl.h>      // Para open(), O_RDONLY, O_WRONLY, O_CREAT, etc.
 #include <string.h> 
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 #include "../include/builtins.h"
 #include "../include/minishell.h"
@@ -91,22 +92,98 @@ char *find_binary_in_path(const char *command)
 }
 
 // Función corregida para ejecutar comandos externos
+// Función corregida para ejecutar comandos externos
 int execute_external_command(t_command *cmd, char ***envp)
 {
     char *binary_path;
     pid_t pid;
     int status;
+    struct stat st;
 
     if (!cmd || !cmd->args || !cmd->args[0])
         return (1);
 
-    binary_path = find_binary_in_path(cmd->args[0]);
-    if (!binary_path)
+    // Manejar comando vacío - hacer shift de argumentos
+    if (cmd->args[0][0] == '\0')
     {
-        write(STDERR_FILENO, "minishell: command not found: ", 30);
-        write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
-        write(STDERR_FILENO, "\n", 1);
-        return (127);
+        // Hacer shift: mover todos los argumentos una posición hacia la izquierda
+        int i = 0;
+        while (cmd->args[i + 1])
+        {
+            cmd->args[i] = cmd->args[i + 1];
+            i++;
+        }
+        cmd->args[i] = NULL;
+        
+        // Si después del shift no hay argumentos, return 0
+        if (!cmd->args[0])
+            return (0);
+    }
+
+    // Si el comando empieza con ./ o es una ruta absoluta, verificar directamente
+    if (cmd->args[0][0] == '.' || cmd->args[0][0] == '/')
+    {
+        if (stat(cmd->args[0], &st) == 0)
+        {
+            if (S_ISDIR(st.st_mode))
+            {
+                write(STDERR_FILENO, "minishell: ", 11);
+                write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
+                write(STDERR_FILENO, ": Is a directory\n", 16);
+                return (126);
+            }
+            if (access(cmd->args[0], X_OK) != 0)
+            {
+                write(STDERR_FILENO, "minishell: ", 11);
+                write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
+                write(STDERR_FILENO, ": Permission denied\n", 20);
+                return (126);
+            }
+        }
+        else
+        {
+            write(STDERR_FILENO, "minishell: ", 11);
+            write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
+            write(STDERR_FILENO, ": No such file or directory\n", 28);
+            return (127);
+        }
+        binary_path = ft_strdup(cmd->args[0]);
+    }
+    else
+    {
+        // Para comandos sin ./ o ruta absoluta, buscar en PATH primero
+        binary_path = find_binary_in_path(cmd->args[0]);
+        if (!binary_path)
+        {
+            // Si no se encuentra en PATH, verificar si es archivo local
+            if (stat(cmd->args[0], &st) == 0)
+            {
+                if (S_ISDIR(st.st_mode))
+                {
+                    write(STDERR_FILENO, "minishell: command not found: ", 30);
+                    write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
+                    write(STDERR_FILENO, "\n", 1);
+                    return (127);  // Para directorios sin ./ -> command not found
+                }
+                if (access(cmd->args[0], X_OK) != 0)
+                {
+                    write(STDERR_FILENO, "minishell: command not found: ", 30);
+                    write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
+                    write(STDERR_FILENO, "\n", 1);
+                    return (127);  // Para archivos sin permisos sin ./ -> command not found
+                }
+                // Si existe y es ejecutable, usar la ruta directa
+                binary_path = ft_strdup(cmd->args[0]);
+            }
+            else
+            {
+                // Si no existe ni en PATH ni como archivo local
+                write(STDERR_FILENO, "minishell: command not found: ", 30);
+                write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
+                write(STDERR_FILENO, "\n", 1);
+                return (127);
+            }
+        }
     }
 
     pid = fork();

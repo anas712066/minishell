@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:25 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/25 14:03:59 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/06/29 00:04:12 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <string.h>
 # include "minishell.h"
 
-extern int	g_exit_status;
+extern int	g_last_status;
 
 typedef struct s_redir
 {

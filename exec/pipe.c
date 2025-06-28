@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 12:59:18 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/28 23:42:06 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 00:15:28 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,17 @@ int execute_pipeline(t_command *cmd, char ***envp)
     if (!cmd || !cmd->next)
     {
         // Comando único (sin pipe)
-        if (cmd && cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
-            return execute_builtin(cmd, envp);
-        else if (cmd)
-            return execute_external_command(cmd, envp);
+        if (cmd)
+        {
+            // ← AGREGAR redirecciones para comando único
+            if (handle_redirections(cmd) != 0)
+                return 1;
+                
+            if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
+                return execute_builtin(cmd, envp);
+            else
+                return execute_external_command(cmd, envp);
+        }
         return 0;
     }
     
@@ -47,11 +54,18 @@ int execute_pipeline(t_command *cmd, char ***envp)
     pid1 = fork();
     if (pid1 == 0)
     {
+        // 1. Configurar pipe PRIMERO
         close(pipefd[0]);                    // Cerrar lectura
         dup2(pipefd[1], STDOUT_FILENO);      // Redirigir stdout al pipe
         close(pipefd[1]);
         
-        // Ejecutar primer comando
+        // 2. Aplicar redirecciones DESPUÉS (pueden sobrescribir el pipe)
+        if (handle_redirections(cmd) != 0)
+        {
+            close(STDOUT_FILENO);  // ← AGREGAR: Cerrar stdout para que el pipe se cierre
+            exit(1);
+        }
+        // 3. Ejecutar comando
         if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
             exit(execute_builtin(cmd, envp));
         else
@@ -62,10 +76,16 @@ int execute_pipeline(t_command *cmd, char ***envp)
     pid2 = fork();
     if (pid2 == 0)
     {
+        // 1. Configurar pipe PRIMERO
         close(pipefd[1]);                    // Cerrar escritura
         dup2(pipefd[0], STDIN_FILENO);       // Redirigir stdin del pipe
         close(pipefd[0]);
         
+        // 2. Aplicar redirecciones DESPUÉS
+        if (handle_redirections(cmd->next) != 0)
+            exit(1);
+        
+        // 3. Ejecutar comando
         // Si hay más comandos en la pipeline, continuar recursivamente
         if (cmd->next->pipe)
             exit(execute_pipeline(cmd->next, envp));

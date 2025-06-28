@@ -6,14 +6,14 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:46:23 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/28 23:16:51 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 00:04:56 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "../include/minishell.h"
 
-int	g_exit_status = 0;
+int	g_last_status = 0;
 
 char	*expand_variable(const char *line, int *i)
 {
@@ -25,7 +25,7 @@ char	*expand_variable(const char *line, int *i)
     if (line[start] == '?') // Manejar $?
     {
         (*i)++;
-        return (ft_itoa(g_exit_status)); // Devuelve el código de salida como string
+        return (ft_itoa(g_last_status)); // Devuelve el código de salida como string
     }
     while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
         (*i)++;

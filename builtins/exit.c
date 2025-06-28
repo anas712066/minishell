@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 12:58:48 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/28 21:08:13 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 00:02:54 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int builtin_exit(char **args)
     if (arg_count == 0)
     {
         // exit sin argumentos → usar el último exit code
-        exit(g_last_exit_code);
+        exit(g_last_status);
     }
     else if (arg_count == 1)
     {
