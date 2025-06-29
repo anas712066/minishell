@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 03:52:20 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 03:56:55 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 19:32:18 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,27 +74,35 @@ char	*extract_var_name(char *arg)
 	return (var_name);
 }
 
-void	set_env_variable(char *arg, char *var_name)
+void set_env_variable(char *arg, char *var_name, char ***env)
 {
-	char	*equal_sign;
-	char	*var_value;
-	char	*existing_value;
+    char *equal_sign;
+    char *var_value;
+    char *existing_value;
 
-	equal_sign = strchr(arg, '=');
-	if (equal_sign)
-	{
-		var_value = equal_sign + 1;
-		setenv(var_name, var_value, 1);
-	}
-	else
-	{
-		existing_value = getenv(var_name);
-		if (existing_value)
-			setenv(var_name, existing_value, 1);
-	}
+    equal_sign = strchr(arg, '=');
+    if (equal_sign)
+    {
+        var_value = equal_sign + 1;
+        setenv(var_name, var_value, 1);
+        
+        // ← AGREGAR: Actualizar también el array env
+        *env = add_var_to_env(*env, var_name, var_value);
+    }
+    else
+    {
+        existing_value = getenv(var_name);
+        if (existing_value)
+        {
+            setenv(var_name, existing_value, 1);
+            
+            // ← AGREGAR: Actualizar también el array env
+            *env = add_var_to_env(*env, var_name, existing_value);
+        }
+    }
 }
 
-int	process_export_arg(char *arg)
+int	process_export_arg(char *arg, char ***env)
 {
 	char	*var_name;
 
@@ -107,7 +115,7 @@ int	process_export_arg(char *arg)
 		free(var_name);
 		return (1);
 	}
-	set_env_variable(arg, var_name);
+	set_env_variable(arg, var_name, env);
 	free(var_name);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 14:54:52 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 15:14:40 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 19:45:17 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	execute_builtin(t_command *cmd, char ***env)
 	else if (strcmp(cmd->args[0], "export") == 0)
 		return (builtin_export(cmd->args, env));
 	else if (strcmp(cmd->args[0], "unset") == 0)
-		return (builtin_unset(cmd->args));
+		return (builtin_unset(cmd->args, env));
 	else if (strcmp(cmd->args[0], "env") == 0)
 		return (builtin_env(*env));
 	else if (strcmp(cmd->args[0], "exit") == 0)
