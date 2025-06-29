@@ -3,54 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:25 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 16:17:09 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:23:13 by mumajeed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <stdlib.h>
-# include <string.h>
 # include "../libft/libft.h"
 # include "minishell.h"
+# include <stdlib.h>
+# include <string.h>
 
-extern int	g_last_status;
+extern int				g_last_status;
 
 typedef struct s_redir
 {
-	int				type; // T_REDIR_IN, T_REDIR_OUT, T_APPEND, T_HEREDOC
-	char			*filename; // Archivo asociado a la redirección
-	struct s_redir	*next; // Para múltiples redirecciones
-}	t_redir;
+	int					type;
+	char				*filename;
+	struct s_redir		*next;
+}						t_redir;
 
 typedef struct s_command
 {
-	char	**args; // Argumentos del comando
-	t_redir         *redirs;    // Lista de redirecciones
-    int             pipe;       // 1 si hay pipe después de este comando
-	struct s_command	*next; // Comando siguiente
-}	t_command;
+	char				**args;
+	t_redir				*redirs;
+	int					pipe;
+	struct s_command	*next;
+}						t_command;
 
+t_command				*parse_tokens_to_commands(t_token *tokens);
+void					free_command_list(t_command *cmd);
+char					*expand_line(const char *line);
+char					*expand_variable(const char *line, int *i);
 
-t_command	*parse_tokens_to_commands(t_token *tokens);
-void		free_command_list(t_command *cmd);
-char		*expand_line(const char *line);
-char		*expand_variable(const char *line, int *i);
+t_redir					*new_redir(int type, char *filename);
 
-
-t_redir	*new_redir(int type, char *filename);
-
-void	add_redir(t_redir **redirs, t_redir *new_redir);
-t_command	*new_command(void);
-void	handle_word_token(t_command *current, t_token *tokens);
-void	handle_redir_token(t_command *current, t_token **tokens, int type);
-char	**add_arg(char **args, char *value);
-char	*expand_variable(const char *line, int *i);
-char	*join_and_free(char *result, char *temp);
-char	*extract_literal_part(const char *line, int *i);
+void					add_redir(t_redir **redirs, t_redir *new_redir);
+t_command				*new_command(void);
+void					handle_word_token(t_command *current, t_token *tokens);
+void					handle_redir_token(t_command *current, t_token **tokens,
+							int type);
+char					**add_arg(char **args, char *value);
+char					*expand_variable(const char *line, int *i);
+char					*join_and_free(char *result, char *temp);
+char					*extract_literal_part(const char *line, int *i);
 
 #endif
