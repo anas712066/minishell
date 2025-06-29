@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:06:14 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/28 23:17:05 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:42:14 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,14 @@ char *extract_word_with_quotes(char *line, int *i)
         raw_content[j++] = line[(*i)++];
     }
     raw_content[j] = '\0';
-    
-    // NO expandir si estuvo en comillas simples
-    if (was_in_single_quote)
+    if (was_in_single_quote)   // NO expandir si estuvo en comillas simples
     {
-        return raw_content;  // ← RETORNAR SIN EXPANDIR
+        return raw_content;
     }
-    
-    // Expandir variables si es necesario (comillas dobles o sin comillas)
-    if (should_expand || strchr(raw_content, '$'))
-    {
-        char *expanded = expand_variables(raw_content);
-        free(raw_content);
-        return expanded;
-    }
-    
-    return raw_content;
+    // SÍ expandir si NO estuvo en comillas simples
+    char *expanded = expand_variables(raw_content);
+    free(raw_content);
+    return expanded;
 }
 
 // Función para crear un nuevo token

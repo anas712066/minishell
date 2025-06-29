@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmilitar <mmilitar@student.42barcelon      +#+  +:+       +#+        */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 14:54:52 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 14:54:58 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:14:40 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	handle_empty_command(t_command *cmd)
 {
 	int	i;
 
-	if (cmd->args[0][0] != '\0')
+	if (cmd->args[0] && cmd->args[0][0] != '\0')
 		return (0);
 	i = 0;
 	while (cmd->args[i + 1])
@@ -101,7 +101,7 @@ int	handle_empty_command(t_command *cmd)
 		i++;
 	}
 	cmd->args[i] = NULL;
-	if (!cmd->args[0])
+	if (!cmd->args[0] || cmd->args[0][0] == '\0')
 		return (1);
 	return (0);
 }

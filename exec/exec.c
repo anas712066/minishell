@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:54:42 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 15:11:21 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:50:19 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ static int	resolve_binary_path(t_command *cmd, char **binary_path)
 	return (0);
 }
 
-static int	execute_fork_process(t_command *cmd, char *binary_path, char ***envp)
+static int	execute_fork_process(t_command *cmd, char *binary_path,
+	char ***envp)
 {
 	pid_t	pid;
 	int		status;
