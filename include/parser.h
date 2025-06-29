@@ -6,7 +6,7 @@
 /*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:25 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 14:29:46 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/06/29 14:57:04 by mumajeed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <string.h>
+# include "../libft/libft.h"
 # include "minishell.h"
 
 extern int	g_last_status;
