@@ -19,6 +19,8 @@
 #include <signal.h>
 #include <unistd.h>
 #include "../include/exec.h"
+#include "../include/tokenizer.h"
+#include "../include/parser.h"
 #include <fcntl.h>      // Para open(), O_RDONLY, O_WRONLY, O_CREAT, etc.
 #include <string.h> 
 

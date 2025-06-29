@@ -31,11 +31,12 @@ SRCS := src/main.c \
         src/syntax_validation.c \
         parser/tokenizer.c \
         parser/tokenizer_utils.c \
+        parser/tokenizer_utils2.c \
         parser/tokenizer_functions.c \
-        parser/quotes.c \
         parser/expand.c \
-        parser/parser_utils.c \
+        parser/expand_utils.c \
         parser/command_parser.c \
+        parser/command_parser_utils.c \
         parser/variable_expansion.c \
         builtins/echo.c \
         builtins/cd.c \

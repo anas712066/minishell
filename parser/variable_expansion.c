@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   variable_expansion.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/29 16:05:58 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/06/29 16:07:52 by mmilitar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <string.h>
 #include "../include/minishell.h"
@@ -59,17 +71,11 @@ static int	expand_normal_variable(char *str, int i, char *result, int *j)
 	}
 }
 
-char	*expand_variables(char *str)
+static void	process_expansion(char *str, char *result)
 {
-	char	*result;
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
-	if (!str)
-		return (NULL);
-	result = malloc(2048);
-	if (!result)
-		return (NULL);
 	i = 0;
 	j = 0;
 	while (str[i])
@@ -88,5 +94,17 @@ char	*expand_variables(char *str)
 			result[j++] = str[i++];
 	}
 	result[j] = '\0';
+}
+
+char	*expand_variables(char *str)
+{
+	char	*result;
+
+	if (!str)
+		return (NULL);
+	result = malloc(2048);
+	if (!result)
+		return (NULL);
+	process_expansion(str, result);
 	return (result);
 }

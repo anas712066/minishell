@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:25 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 14:57:04 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:17:09 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,17 @@ t_command	*parse_tokens_to_commands(t_token *tokens);
 void		free_command_list(t_command *cmd);
 char		*expand_line(const char *line);
 char		*expand_variable(const char *line, int *i);
+
+
+t_redir	*new_redir(int type, char *filename);
+
+void	add_redir(t_redir **redirs, t_redir *new_redir);
+t_command	*new_command(void);
+void	handle_word_token(t_command *current, t_token *tokens);
+void	handle_redir_token(t_command *current, t_token **tokens, int type);
+char	**add_arg(char **args, char *value);
+char	*expand_variable(const char *line, int *i);
+char	*join_and_free(char *result, char *temp);
+char	*extract_literal_part(const char *line, int *i);
 
 #endif
