@@ -15,9 +15,27 @@ int validate_syntax(t_token *tokens)
             current->type == T_REDIR_IN || current->type == T_HEREDOC)
         {
             // Redirección sin un siguiente token que sea un T_WORD
-            if (!current->next || current->next->type != T_WORD)
+            if (!current->next)
             {
-                fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
+                // Si no hay siguiente token → newline
+                write(STDERR_FILENO, " syntax error near unexpected token `newline'\n", 46);
+                return (0);
+            }
+            else if (current->next->type != T_WORD)
+            {
+                // Si hay siguiente token pero no es WORD → mostrar ese token
+                if (current->next->type == T_PIPE)
+                    write(STDERR_FILENO, " syntax error near unexpected token `|'\n", 40);
+                else if (current->next->type == T_REDIR_OUT)
+                    write(STDERR_FILENO, " syntax error near unexpected token `>'\n", 40);
+                else if (current->next->type == T_APPEND)
+                    write(STDERR_FILENO, " syntax error near unexpected token `>>'\n", 41);
+                else if (current->next->type == T_REDIR_IN)
+                    write(STDERR_FILENO, " syntax error near unexpected token `<'\n", 40);
+                else if (current->next->type == T_HEREDOC)
+                    write(STDERR_FILENO, " syntax error near unexpected token `<<'\n", 41);
+                else
+                    write(STDERR_FILENO, " syntax error near unexpected token `newline'\n", 47);
                 return (0);
             }
         }
@@ -26,9 +44,15 @@ int validate_syntax(t_token *tokens)
         if (current->type == T_PIPE)
         {
             // Pipe al principio, al final o seguido de otro pipe
-            if (current == tokens || !current->next || current->next->type == T_PIPE)
+            if (current == tokens || !current->next)
             {
-                fprintf(stderr, "minishell: syntax error near unexpected token `|'\n");
+                write(STDERR_FILENO, " syntax error near unexpected token `|'\n", 40);
+                return (0);
+            }
+            // Pipes consecutivos
+            else if (current->next->type == T_PIPE)
+            {
+                write(STDERR_FILENO, " syntax error near unexpected token `|'\n", 40);
                 return (0);
             }
         }
@@ -56,7 +80,7 @@ int execute_command(t_token *tokens) {
     char full_path[256];   // Aquí almacenamos la ruta completa del ejecutable
 
     // Concatenar la ruta y el comando (por ejemplo, "/bin/ls")
-    snprintf(full_path, sizeof(full_path), "%s%s", path, tokens->value);
+    printf(full_path, sizeof(full_path), "%s%s", path, tokens->value);
 
     pid = fork();
     if (pid == 0) {
@@ -91,7 +115,7 @@ int handle_logical_operator(t_token *tokens)
             // Verificar que hay comandos antes y después del pipe
             if (!current->next || current->next->type != T_WORD)
             {
-                printf("minishell: syntax error near unexpected token `|'\n");
+                write(STDERR_FILENO, " syntax error near unexpected token `|'\n", 39);
                 return (0); // Error de sintaxis
             }
         }/*

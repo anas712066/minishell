@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 12:58:48 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 00:02:54 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 02:31:42 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,35 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <limits.h>
 
-// Función para verificar si una cadena es un número válido
-int is_numeric(const char *str)
+// Función para verificar si una cadena es un número válido Y detectar overflow
+int is_numeric_with_overflow_check(const char *str, long *result)
 {
     if (!str || !*str)
         return (0);
     
-    int i = 0;
+    char *endptr;
+    errno = 0;  // Resetear errno antes de strtol
     
-    // Permitir signo opcional al inicio
-    if (str[i] == '+' || str[i] == '-')
-        i++;
+    *result = strtol(str, &endptr, 10);
     
-    // Debe tener al menos un dígito después del signo (si lo hay)
-    if (!str[i])
-        return (0);
+    // Verificar overflow/underflow
+    if (errno == ERANGE)
+        return (-1);  // -1 indica overflow
     
-    // Verificar que el resto sean dígitos
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]))
-            return (0);
-        i++;
-    }
+    // Verificar que se parseó todo el string
+    if (*endptr != '\0')
+        return (0);   // 0 indica formato inválido
     
-    return (1);
+    return (1);       // 1 indica éxito
 }
 
 int builtin_exit(char **args)
 {
     int arg_count = 0;
-    int exit_code = 0;
+    long exit_code_long = 0;
     
     // Contar argumentos (sin incluir "exit")
     while (args[arg_count + 1])
@@ -61,21 +58,43 @@ int builtin_exit(char **args)
     else if (arg_count == 1)
     {
         // exit con un argumento → debe ser numérico
-        if (!is_numeric(args[1]))
+        int check_result = is_numeric_with_overflow_check(args[1], &exit_code_long);
+        
+        if (check_result == -1)
         {
+            // Overflow detectado
+            write(STDERR_FILENO, "minishell: exit: ", 17);
+            write(STDERR_FILENO, args[1], strlen(args[1]));
+            write(STDERR_FILENO, ": numeric argument required\n", 28);
+            exit(2);
+        }
+        else if (check_result == 0)
+        {
+            // Formato inválido
             handle_exit_numeric_argument_error(args[1]);
-            exit(2);  // Exit code específico para argumento no numérico
+            exit(2);
         }
         
-        exit_code = ft_atoi(args[1]);
-        exit(exit_code & 255);  // bash usa solo los 8 bits menos significativos
+        // Número válido, usar solo los 8 bits menos significativos
+        exit(exit_code_long & 255);
     }
     else
     {
         // exit con múltiples argumentos → error
-        if (!is_numeric(args[1]))
+        long dummy;
+        int check_result = is_numeric_with_overflow_check(args[1], &dummy);
+        
+        if (check_result == -1)
         {
-            // Si el primer argumento no es numérico, es error de argumento numérico
+            // Overflow en el primer argumento
+            write(STDERR_FILENO, "minishell: exit: ", 17);
+            write(STDERR_FILENO, args[1], strlen(args[1]));
+            write(STDERR_FILENO, ": numeric argument required\n", 28);
+            exit(2);
+        }
+        else if (check_result == 0)
+        {
+            // Formato inválido en el primer argumento
             handle_exit_numeric_argument_error(args[1]);
             exit(2);
         }

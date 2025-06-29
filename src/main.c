@@ -68,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (!validate_syntax(tokens))
         {
+			g_last_status = 2;  
             free_tokens(tokens);
             free(line);
             continue; // Continuamos con la siguiente línea
@@ -77,6 +78,7 @@ int	main(int argc, char **argv, char **envp)
 		
 		// Procesamos cada comando
 		t_command *cmd = commands;
+		
 		while (cmd)
 		{
 			if (cmd->pipe)
@@ -93,36 +95,37 @@ int	main(int argc, char **argv, char **envp)
 				// Comando simple
 				if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
 				{
-					// Para builtins, aplicar redirecciones aquí
-					int stdin_backup = -1;
-					int stdout_backup = -1;
-					
-					// Hacer backup de descriptores originales SI hay redirecciones
+					// Si hay redirecciones, hacer fork (como bash)
 					if (cmd->redirs)
 					{
-						stdin_backup = dup(STDIN_FILENO);
-						stdout_backup = dup(STDOUT_FILENO);
-					}
-					
-					if (apply_redirections(cmd) == 0)
-					{
-						g_last_status = execute_builtin(cmd, &envp);
+						pid_t pid = fork();
+						if (pid == 0)
+						{
+							// Proceso hijo: aplicar redirecciones y ejecutar builtin
+							if (handle_redirections(cmd) != 0)
+								exit(1);
+							exit(execute_builtin(cmd, &envp));
+						}
+						else if (pid > 0)
+						{
+							// Proceso padre: esperar al hijo
+							int status;
+							waitpid(pid, &status, 0);
+							if (WIFEXITED(status))
+								g_last_status = WEXITSTATUS(status);
+							else
+								g_last_status = 1;
+						}
+						else
+						{
+							perror("fork");
+							g_last_status = 1;
+						}
 					}
 					else
 					{
-						g_last_status = 1;
-					}
-					
-					// Restaurar file descriptors SOLO si se hicieron backups
-					if (stdin_backup != -1)
-					{
-						dup2(stdin_backup, STDIN_FILENO);
-						close(stdin_backup);
-					}
-					if (stdout_backup != -1)
-					{
-						dup2(stdout_backup, STDOUT_FILENO);
-						close(stdout_backup);
+						// Sin redirecciones: ejecutar builtin directamente
+						g_last_status = execute_builtin(cmd, &envp);
 					}
 				}
 				else if (cmd->args && cmd->args[0])

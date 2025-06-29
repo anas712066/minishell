@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 12:58:50 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/28 21:03:04 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 02:53:22 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 // Función para validar si un nombre de variable es válido
 int is_valid_identifier(const char *name)
@@ -42,11 +44,25 @@ int builtin_export(char **args, char ***env)
     // Si no hay argumentos, mostrar todas las variables exportadas
     if (!args[1])
     {
-        // Mostrar variables (implementar según necesites)
         char **current = *env;
         while (*current)
         {
-            printf("declare -x %s\n", *current);
+            char *equal_sign = strchr(*current, '=');
+            if (equal_sign)
+            {
+                // Separar nombre y valor
+                int name_len = equal_sign - *current;
+                char *name = ft_substr(*current, 0, name_len);
+                char *value = equal_sign + 1;
+                
+                printf("declare -x %s=\"%s\"\n", name, value);
+                free(name);
+            }
+            else
+            {
+                // Variable sin valor
+                printf("declare -x %s\n", *current);
+            }
             current++;
         }
         return (0);
@@ -74,9 +90,19 @@ int builtin_export(char **args, char ***env)
         // Validar el nombre de la variable
         if (!is_valid_identifier(var_name))
         {
-            fprintf(stderr, "export: `%s': not a valid identifier\n", arg);
+            char *prefix = "export: ";
+            char *suffix = ": not a valid identifier";
+            
+            char *part1 = ft_strjoin(prefix, arg);
+            char *full_msg = ft_strjoin(part1, suffix);
+            
+            write(STDERR_FILENO, full_msg, ft_strlen(full_msg));
+            write(STDERR_FILENO, "\n", 1);
+            
+            free(part1);
+            free(full_msg);
             free(var_name);
-            return (1);  // Error
+            return (1);
         }
         
         // Si llegamos aquí, el identificador es válido

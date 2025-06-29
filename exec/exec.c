@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:54:42 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 01:42:03 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 03:26:59 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,16 +159,12 @@ int execute_external_command(t_command *cmd, char ***envp)
             {
                 if (S_ISDIR(st.st_mode))
                 {
-                    write(STDERR_FILENO, "minishell: command not found: ", 30);
-                    write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
-                    write(STDERR_FILENO, "\n", 1);
+                    write(STDERR_FILENO, " command not found", 18);
                     return (127);  // Para directorios sin ./ -> command not found
                 }
                 if (access(cmd->args[0], X_OK) != 0)
                 {
-                    write(STDERR_FILENO, "minishell: command not found: ", 30);
-                    write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
-                    write(STDERR_FILENO, "\n", 1);
+                    write(STDERR_FILENO, " command not found", 18);
                     return (127);  // Para archivos sin permisos sin ./ -> command not found
                 }
                 // Si existe y es ejecutable, usar la ruta directa
@@ -177,8 +173,7 @@ int execute_external_command(t_command *cmd, char ***envp)
             else
             {
                 // Si no existe ni en PATH ni como archivo local
-                write(STDERR_FILENO, "minishell: command not found: ", 30);
-                write(STDERR_FILENO, cmd->args[0], strlen(cmd->args[0]));
+                write(STDERR_FILENO, " command not found\n", 19);
                 write(STDERR_FILENO, "\n", 1);
                 return (127);
             }
