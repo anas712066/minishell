@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:44:54 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 20:31:22 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:38:16 by mumajeed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	handle_sigint(int sig)
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	//rl_redisplay();
 }
 
 void	handle_sigquit(int sig)
