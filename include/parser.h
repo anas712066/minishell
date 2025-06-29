@@ -6,7 +6,7 @@
 /*   By: mumajeed <mumajeed@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:25 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 17:23:13 by mumajeed         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:35:04 by mumajeed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "minishell.h"
 # include <stdlib.h>
 # include <string.h>
+# include "tokenizer.h"
 
 extern int				g_last_status;
 
