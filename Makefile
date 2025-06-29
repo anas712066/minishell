@@ -24,6 +24,7 @@ RESET = \033[0m
 
 # Archivos fuente
 SRCS := src/main.c \
+        src/main_utils.c \
         src/signal.c \
         src/utils/utils.c \
         src/utils/history_utils.c \
