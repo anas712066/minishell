@@ -5,8 +5,7 @@
 # Variables
 NAME := minishell
 CC := cc
-CFLAGS := -Wall -Wextra -Werror 
-#-fsanitize=address -fsanitize=undefined
+CFLAGS := -Wall -Wextra -Werror #-fsanitize=address -fsanitize=undefined
 INCLUDES := -Iinclude -Ilibft
 DEPFLAGS := -MMD -MP
 
@@ -48,6 +47,7 @@ SRCS := src/main.c \
         builtins/exit.c \
         exec/exec.c \
         exec/redir.c \
+        exec/redir_utils.c \
         exec/pipe.c \
         exec/builtin_check.c \
         errors/error_handler.c \
