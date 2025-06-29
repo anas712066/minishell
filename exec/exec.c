@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:54:42 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 14:52:18 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:00:18 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,6 @@
 #include <sys/stat.h>
 
 #include "../include/exec.h"
-
-static int	check_file_permissions(const char *path)
-{
-	struct stat	st;
-
-	if (stat(path, &st) == 0)
-	{
-		if (S_ISDIR(st.st_mode))
-		{
-			write(STDERR_FILENO, "minishell: ", 11);
-			write(STDERR_FILENO, path, strlen(path));
-			write(STDERR_FILENO, ": Is a directory\n", 16);
-			return (126);
-		}
-		if (access(path, X_OK) != 0)
-		{
-			write(STDERR_FILENO, "minishell: ", 11);
-			write(STDERR_FILENO, path, strlen(path));
-			write(STDERR_FILENO, ": Permission denied\n", 20);
-			return (126);
-		}
-		return (0);
-	}
-	write(STDERR_FILENO, "minishell: ", 11);
-	write(STDERR_FILENO, path, strlen(path));
-	write(STDERR_FILENO, ": No such file or directory\n", 28);
-	return (127);
-}
 
 static int	handle_local_file(const char *command, char **binary_path)
 {
@@ -73,7 +45,8 @@ static int	handle_local_file(const char *command, char **binary_path)
 	return (127);
 }
 
-static int	execute_child_process(t_command *cmd, char *binary_path, char ***envp)
+static int	execute_child_process(t_command *cmd,
+	char *binary_path, char ***envp)
 {
 	if (handle_redirections(cmd) != 0)
 	{
@@ -89,30 +62,40 @@ static int	execute_child_process(t_command *cmd, char *binary_path, char ***envp
 	return (0);
 }
 
-int	execute_external_command(t_command *cmd, char ***envp)
+static char	*resolve_binary_path(t_command *cmd)
 {
 	char	*binary_path;
-	pid_t	pid;
-	int		status;
 	int		ret;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
-		return (1);
+		return (NULL);
 	if (handle_empty_command(cmd))
-		return (0);
+		return (NULL);
 	if (cmd->args[0][0] == '.' || cmd->args[0][0] == '/')
 	{
 		ret = check_file_permissions(cmd->args[0]);
 		if (ret != 0)
-			return (ret);
+			return (NULL);
 		binary_path = ft_strdup(cmd->args[0]);
 	}
 	else
 	{
 		binary_path = find_binary_in_path(cmd->args[0]);
 		if (!binary_path)
-			return (handle_local_file(cmd->args[0], &binary_path));
+		{
+			handle_local_file(cmd->args[0], &binary_path);
+			return (NULL);
+		}
 	}
+	return (binary_path);
+}
+
+static int	execute_fork_process(t_command *cmd,
+	char *binary_path, char ***envp)
+{
+	pid_t	pid;
+	int		status;
+
 	pid = fork();
 	if (pid == 0)
 		execute_child_process(cmd, binary_path, envp);
@@ -130,6 +113,15 @@ int	execute_external_command(t_command *cmd, char ***envp)
 		free(binary_path);
 		return (1);
 	}
+	return (0);
+}
 
-    return (0);
+int	execute_external_command(t_command *cmd, char ***envp)
+{
+	char	*binary_path;
+
+	binary_path = resolve_binary_path(cmd);
+	if (!binary_path)
+		return (1);
+	return (execute_fork_process(cmd, binary_path, envp));
 }

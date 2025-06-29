@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:03:00 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 14:51:51 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 14:59:58 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ char	*search_in_path(const char *command, char *path_copy);
 
 char	*find_binary_in_path(const char *command);
 int	handle_empty_command(t_command *cmd);
+
+int	check_file_permissions(const char *path);
 
 #endif

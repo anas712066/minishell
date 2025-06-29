@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 12:59:18 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 14:44:04 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 14:53:42 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	execute_second_child(t_command *cmd, char ***envp, int *pipefd)
 		exit(execute_pipeline(cmd->next, envp));
 	else
 	{
-		if (cmd->next->args && cmd->next->args[0] 
+		if (cmd->next->args && cmd->next->args[0]
 			&& is_builtin(cmd->next->args[0]))
 			exit(execute_builtin(cmd->next, envp));
 		else
@@ -55,7 +55,7 @@ static int	execute_second_child(t_command *cmd, char ***envp, int *pipefd)
 	}
 }
 
-static int	execute_pipeline_processes(t_command *cmd, char ***envp, 
+static int	execute_pipeline_processes(t_command *cmd, char ***envp,
 			int *pipefd)
 {
 	pid_t	pid1;
