@@ -46,6 +46,7 @@ SRCS := src/main.c \
         builtins/unset.c \
         builtins/exit.c \
         exec/exec.c \
+        exec/exec_utils.c \
         exec/redir.c \
         exec/redir_utils.c \
         exec/pipe.c \
