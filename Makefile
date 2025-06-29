@@ -4,8 +4,9 @@
 
 # Variables
 NAME := minishell
-CC := gcc
-CFLAGS := -Wall -Wextra -Werror -g #-fsanitize=address -fsanitize=undefined
+CC := cc
+CFLAGS := -Wall -Wextra -Werror 
+#-fsanitize=address -fsanitize=undefined
 INCLUDES := -Iinclude -Ilibft
 DEPFLAGS := -MMD -MP
 
@@ -58,9 +59,9 @@ SRCS := src/main.c \
 OBJS := $(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
-# ********************************************** #
-#                  RULES                        #
-# ********************************************** #
+# **********************************************
+#                  RULES                        
+# **********************************************
 
 # Regla por defecto
 all: $(NAME)
@@ -70,10 +71,10 @@ $(LIBFT):
 	@echo "$(BLUE)Compilando libft...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# Ejecutable
+# Ejecutable - CAMBIO AQUÍ: usar -L y -l en lugar de enlazar directamente
 $(NAME): $(OBJS) $(LIBFT) Makefile
 	@echo "$(YELLOW)Enlazando $@...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 	@echo "$(GREEN)¡Minishell compilado correctamente!$(RESET)"
 
 # Regla para compilar .o desde .c

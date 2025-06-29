@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:11:40 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/28 21:18:44 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:32:25 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define ERROR_HANDLER_H
 
 # include "tokenizer.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <string.h>
 
 void	handle_quote_error(int type);
 void	handle_empty_token_error(const char *token);
@@ -39,6 +42,5 @@ void	handle_export_invalid_identifier_error(const char *arg);
 void	handle_exit_numeric_argument_error(const char *arg);
 void	handle_exit_too_many_args_error(void);
 void	handle_unset_invalid_identifier_error(const char *arg);
-
 
 #endif

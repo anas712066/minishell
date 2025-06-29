@@ -1,6 +1,16 @@
-#include "../include/minishell.h"
-#include "../include/tokenizer.h"
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmilitar <mmilitar@student.42barcelon      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/29 13:40:58 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/06/29 13:41:04 by mmilitar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/error_handler.h"
 
 void	validate_tokens(t_token *tokens)
 {

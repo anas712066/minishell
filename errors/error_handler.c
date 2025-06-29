@@ -6,12 +6,11 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:13:11 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/18 18:08:11 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:41:27 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error_handler.h"
-#include <stdio.h>
 
 void	handle_quote_error(int quote_type)
 {
@@ -22,4 +21,3 @@ void	handle_quote_error(int quote_type)
 	else if (quote_type == 3)
 		fprintf(stderr, "Error: Comillas no emparejadas correctamente.\n");
 }
-
