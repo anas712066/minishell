@@ -6,11 +6,11 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:07:50 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/04/16 21:21:24 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:55:45 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../libft/libft.h"
+#include "../libft/libft.h"
 
 char	*get_history_path(void)
 {

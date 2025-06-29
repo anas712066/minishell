@@ -6,14 +6,12 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:46:23 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 16:17:48 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:09:11 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "../include/parser.h"
-
-int	g_last_status = 0;
 
 static char	*process_variable_expansion(const char *line, int *i, char *result)
 {

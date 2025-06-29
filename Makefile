@@ -24,11 +24,11 @@ RESET = \033[0m
 
 # Archivos fuente
 SRCS := src/main.c \
-        src/prompt.c \
         src/signal.c \
         src/utils/utils.c \
         src/utils/history_utils.c \
         src/syntax_validation.c \
+        src/syntax_validation_utils.c \
         parser/tokenizer.c \
         parser/tokenizer_utils.c \
         parser/tokenizer_utils2.c \

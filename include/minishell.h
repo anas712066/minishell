@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:10:27 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 00:02:03 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:19:11 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,14 @@
 # include "exec.h"
 # include "builtins.h"
 # include "syntax_validation.h"
-# include "env.h"
 
-extern int g_last_status;
+#include <stdio.h>
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <signal.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
 
 #endif
