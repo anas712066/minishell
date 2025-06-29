@@ -9,12 +9,12 @@ CFLAGS := -Wall -Wextra -Werror #-fsanitize=address -fsanitize=undefined
 INCLUDES := -Iinclude -Ilibft
 DEPFLAGS := -MMD -MP
 
-# Directorios
+# Directories
 OBJDIR := obj
 LIBFT_DIR := libft
 LIBFT := $(LIBFT_DIR)/libft.a
 
-# Colores para mensajes
+# Colores pfor messages
 GREEN = \033[0;32m
 YELLOW = \033[0;33m
 BLUE = \033[0;34m
@@ -22,7 +22,7 @@ PURPLE = \033[0;35m
 CYAN = \033[0;36m
 RESET = \033[0m
 
-# Archivos fuente
+# Objects files
 SRCS := src/main.c \
         src/main_utils.c \
         src/signal.c \
@@ -58,7 +58,7 @@ SRCS := src/main.c \
         errors/error_arguments.c \
         errors/error_tokens.c \
 
-# Objetos y dependencias
+# Objets and dependencies
 OBJS := $(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
@@ -66,42 +66,42 @@ DEPS := $(OBJS:.o=.d)
 #                  RULES                        
 # **********************************************
 
-# Regla por defecto
+# Rule by default
 all: $(NAME)
 
-# Incluir la librería libft
+# Include libft
 $(LIBFT):
-	@echo "$(BLUE)Compilando libft...$(RESET)"
+	@echo "$(BLUE)Compiling libft...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# Ejecutable - CAMBIO AQUÍ: usar -L y -l en lugar de enlazar directamente
+# Executable
 $(NAME): $(OBJS) $(LIBFT) Makefile
-	@echo "$(YELLOW)Enlazando $@...$(RESET)"
+	@echo "$(YELLOW)Linking $@...$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
-	@echo "$(GREEN)¡Minishell compilado correctamente!$(RESET)"
+	@echo "$(GREEN)¡Minishell compiled successfully!$(RESET)"
 
-# Regla para compilar .o desde .c
+# Rule for compiling .o from .c
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	@echo "$(CYAN)Compilando $<...$(RESET)"
+	@echo "$(CYAN)Compiling $<...$(RESET)"
 	@$(CC) $(CFLAGS) $(INCLUDES) $(DEPFLAGS) -c $< -o $@
 
-# Limpiar archivos objeto
+# Clean object files
 clean:
-	@echo "$(PURPLE)Limpiando objetos...$(RESET)"
+	@echo "$(PURPLE)Cleaning objects...$(RESET)"
 	@rm -rf $(OBJDIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
-# Limpiar todo, incluyendo el ejecutable
+# Clean everything, including the executable
 fclean: clean
-	@echo "$(PURPLE)Limpiando ejecutable...$(RESET)"
+	@echo "$(PURPLE)Cleaning Executable...$(RESET)"
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
-# Volver a compilar desde cero
+# Recompile from scratch
 re: fclean all
 
-# Include de dependencias
+# Include dependencies
 -include $(DEPS)
 
 .PHONY: all clean fclean re
