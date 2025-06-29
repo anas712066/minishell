@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 12:58:43 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 19:56:03 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:15:55 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	print_var_with_value(char *env_entry)
 	char	*var_name;
 	char	*current_value;
 
-	equal_sign = strchr(env_entry, '=');
+	equal_sign = ft_strchr(env_entry, '=');
 	name_len = equal_sign - env_entry;
 	var_name = ft_substr(env_entry, 0, name_len);
 	current_value = getenv(var_name);
@@ -45,7 +45,7 @@ int	builtin_env(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		equal_sign = strchr(envp[i], '=');
+		equal_sign = ft_strchr(envp[i], '=');
 		if (equal_sign)
 			print_var_with_value(envp[i]);
 		else

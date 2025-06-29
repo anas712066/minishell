@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 12:58:48 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 03:52:51 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:05:32 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	handle_exit_args(char **args, int arg_count)
 		if (check_result == -1)
 		{
 			write(STDERR_FILENO, "minishell: exit: ", 17);
-			write(STDERR_FILENO, args[1], strlen(args[1]));
+			write(STDERR_FILENO, args[1], ft_strlen(args[1]));
 			write(STDERR_FILENO, ": numeric argument required\n", 28);
 			exit(2);
 		}
@@ -61,7 +61,7 @@ static int	handle_multiple_args(char **args)
 	if (check_result == -1)
 	{
 		write(STDERR_FILENO, "minishell: exit: ", 17);
-		write(STDERR_FILENO, args[1], strlen(args[1]));
+		write(STDERR_FILENO, args[1], ft_strlen(args[1]));
 		write(STDERR_FILENO, ": numeric argument required\n", 28);
 		exit(2);
 	}

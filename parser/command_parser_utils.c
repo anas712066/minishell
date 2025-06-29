@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_parser_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmilitar <mmilitar@student.42barcelon      +#+  +:+       +#+        */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 16:05:35 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 16:05:39 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:25:30 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_redir	*new_redir(int type, char *filename)
 	if (!redir)
 		return (NULL);
 	redir->type = type;
-	redir->filename = strdup(filename);
+	redir->filename = ft_strdup(filename);
 	redir->next = NULL;
 	return (redir);
 }

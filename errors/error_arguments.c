@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 23:50:03 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 13:41:21 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:21:36 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ void	handle_cd_home_not_set_error(void)
 void	handle_export_invalid_identifier_error(const char *arg)
 {
 	write(STDERR_FILENO, "export: `", 9);
-	write(STDERR_FILENO, arg, strlen(arg));
+	write(STDERR_FILENO, arg, ft_strlen(arg));
 	write(STDERR_FILENO, "': not a valid identifier\n", 26);
 }
 
 void	handle_exit_numeric_argument_error(const char *arg)
 {
 	write(STDERR_FILENO, "exit: ", 6);
-	write(STDERR_FILENO, arg, strlen(arg));
+	write(STDERR_FILENO, arg, ft_strlen(arg));
 	write(STDERR_FILENO, ": numeric argument required\n", 28);
 }

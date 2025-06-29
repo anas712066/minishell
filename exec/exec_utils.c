@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 14:54:52 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 19:45:17 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:23:21 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@ int	execute_builtin(t_command *cmd, char ***env)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (0);
-	if (strcmp(cmd->args[0], "cat") == 0 && !cmd->args[1])
+	if (ft_strcmp(cmd->args[0], "cat") == 0 && !cmd->args[1])
 		printf("minishell: cat: waiting for input (Ctrl+D to exit)\n");
-	else if (strcmp(cmd->args[0], "echo") == 0)
+	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		return (builtin_echo(cmd->args));
-	else if (strcmp(cmd->args[0], "cd") == 0)
+	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		return (builtin_cd(cmd->args));
-	else if (strcmp(cmd->args[0], "pwd") == 0)
+	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		return (builtin_pwd());
-	else if (strcmp(cmd->args[0], "export") == 0)
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		return (builtin_export(cmd->args, env));
-	else if (strcmp(cmd->args[0], "unset") == 0)
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		return (builtin_unset(cmd->args, env));
-	else if (strcmp(cmd->args[0], "env") == 0)
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		return (builtin_env(*env));
-	else if (strcmp(cmd->args[0], "exit") == 0)
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		return (builtin_exit(cmd->args));
 	return (0);
 }

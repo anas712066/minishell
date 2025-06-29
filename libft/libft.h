@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmilitar <mmilitar@student.42barcelon      +#+  +:+       +#+        */
+/*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:11:25 by mmilitar          #+#    #+#             */
-/*   Updated: 2024/10/05 11:11:31 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:11:46 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,5 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 int		ft_lstsize(t_list *lst);
+int		ft_strcmp(const char *s1, const char *s2);
 #endif

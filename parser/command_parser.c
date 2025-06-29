@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 16:06:51 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 16:10:21 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:25:56 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**add_arg(char **args, char *value)
 		new_args[j] = args[j];
 		j++;
 	}
-	new_args[i] = strdup(value);
+	new_args[i] = ft_strdup(value);
 	new_args[i + 1] = NULL;
 	free(args);
 	return (new_args);

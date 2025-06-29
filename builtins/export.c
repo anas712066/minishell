@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 12:58:50 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 19:54:40 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:17:11 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	update_existing_var(char **env, char *var_name,
 	i = 0;
 	while (i < count)
 	{
-		equal_sign = strchr(env[i], '=');
+		equal_sign = ft_strchr(env[i], '=');
 		if (equal_sign)
 		{
 			name_len = equal_sign - env[i];

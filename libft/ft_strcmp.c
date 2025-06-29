@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 12:58:35 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 20:11:04 by mmilitar         ###   ########.fr       */
+/*   Created: 2025/06/29 20:12:21 by mmilitar          #+#    #+#             */
+/*   Updated: 2025/06/29 20:15:00 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/builtins.h"
+#include "libft.h"
 
-int	builtin_echo(char **args)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int	i;
-	int	newline;
+	size_t	i;
 
-	i = 1;
-	newline = 1;
-	if (args[i] && ft_strcmp(args[i], "-n") == 0)
-	{
-		newline = 0;
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
-	}
-	while (args[i])
-	{
-		printf("%s", args[i]);
-		if (args[i + 1])
-			printf(" ");
-		i++;
-	}
-	if (newline)
-		printf("\n");
-	return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

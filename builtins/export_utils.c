@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 03:52:20 by mmilitar          #+#    #+#             */
-/*   Updated: 2025/06/29 19:57:27 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:09:46 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	print_all_exported_vars(char ***env)
 	current = *env;
 	while (*current)
 	{
-		equal_sign = strchr(*current, '=');
+		equal_sign = ft_strchr(*current, '=');
 		if (equal_sign)
 		{
 			name_len = equal_sign - *current;
@@ -63,7 +63,7 @@ char	*extract_var_name(char *arg)
 	char	*var_name;
 	int		name_len;
 
-	equal_sign = strchr(arg, '=');
+	equal_sign = ft_strchr(arg, '=');
 	if (equal_sign)
 	{
 		name_len = equal_sign - arg;
@@ -80,7 +80,7 @@ void	set_env_variable(char *arg, char *var_name, char ***env)
 	char	*var_value;
 	char	*existing_value;
 
-	equal_sign = strchr(arg, '=');
+	equal_sign = ft_strchr(arg, '=');
 	if (equal_sign)
 	{
 		var_value = equal_sign + 1;

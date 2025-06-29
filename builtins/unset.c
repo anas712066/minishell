@@ -6,7 +6,7 @@
 /*   By: mmilitar <mmilitar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 12:58:57 by mumajeed          #+#    #+#             */
-/*   Updated: 2025/06/29 19:52:41 by mmilitar         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:18:12 by mmilitar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	check_var_with_value(char **env, char *var_name, int i, int count)
 	char	*equal_sign;
 	size_t	name_len;
 
-	equal_sign = strchr(env[i], '=');
+	equal_sign = ft_strchr(env[i], '=');
 	name_len = equal_sign - env[i];
 	if (ft_strncmp(env[i], var_name, name_len) == 0
 		&& name_len == ft_strlen(var_name))
@@ -80,7 +80,7 @@ char	**remove_var_from_env(char **env, char *var_name)
 	i = 0;
 	while (i < count)
 	{
-		equal_sign = strchr(env[i], '=');
+		equal_sign = ft_strchr(env[i], '=');
 		if (equal_sign)
 		{
 			if (check_var_with_value(env, var_name, i, count))
